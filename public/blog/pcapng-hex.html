@@ -1,0 +1,280 @@
+<!DOCTYPE html><html><head><head> <!-- Include Meta Tags Here --><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="viewport" content="width=device-width, height=device-height, initial-scale=1 user-scalable=no, shrink-to-fit=no"><meta content='#000000' name='theme-color'/><meta name="keywords" content="Blog, CCIE, Cisco, Wireshark, PCAP, Suricata, Bro, Zeek"><title>Failing Forward | Modifying PCAPng File Structure using a Raw Hex Editor</title><!-- Open Graph general (Facebook, Pinterest & Google+) --><meta name="og:title" content="Failing Forward | Modifying PCAPng File Structure using a Raw Hex Editor"><meta name="og:description" content="By manually changing the Linktype using a hex editor in the Interface Description Block (IDB) of the PCAPng file will convince the packet analysis software that only 1 type of interfaces were available at the time of capture."><meta name="og:image" content="/assets/images/posts/2021-04-14-pcapng-hex/pcapng-hex-title.png"><meta name="og:image:alt" content="Failing Forward | Modifying PCAPng File Structure using a Raw Hex Editor"><meta name="og:url" content="https://blog.showipintbri.com/pages/showipintbri/blog/pcapng-hex"><meta name="article:author" content="https://www.facebook.com/NetCollectivePC"><meta name="og:site_name" content="Failing Forward | Modifying PCAPng File Structure using a Raw Hex Editor"><meta name="og:type" content="website"> <!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Failing Forward | Modifying PCAPng File Structure using a Raw Hex Editor"><meta name="twitter:description" content="By manually changing the Linktype using a hex editor in the Interface Description Block (IDB) of the PCAPng file will convince the packet analysis software that only 1 type of interfaces were available at the time of capture."><meta name="twitter:site" content="@showipintbri"><meta name="twitter:creator" content="@showipintbri"><meta name="twitter:image" content="https://blog.showipintbri.com/assets/images/posts/2021-04-14-pcapng-hex/pcapng-hex-title.png"> <!-- Search Engine --><meta name="description" content="By manually changing the Linktype using a hex editor in the Interface Description Block (IDB) of the PCAPng file will convince the packet analysis software that only 1 type of interfaces were available at the time of capture."><meta name="image" content="/assets/images/posts/2021-04-14-pcapng-hex/pcapng-hex-title.png"> <!-- Schema.org for Google --><meta itemprop="name" content="Failing Forward | Modifying PCAPng File Structure using a Raw Hex Editor"><meta name="author" content="Tony E."/><meta itemprop="description" content="By manually changing the Linktype using a hex editor in the Interface Description Block (IDB) of the PCAPng file will convince the packet analysis software that only 1 type of interfaces were available at the time of capture."><meta itemprop="image" content="/assets/images/posts/2021-04-14-pcapng-hex/pcapng-hex-title.png"><title>Failing Forward</title><link rel="stylesheet" href="/pages/showipintbri/assets/css/style.css"> <script src="https://kit.fontawesome.com/6a97161b76.js" crossorigin="anonymous"></script><link rel="shortcut icon" href="https://blog.showipintbri.com/pages/showipintbri/assets/images/logo.png" type="image/x-icon"></head></head><body><nav class="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation" id="navbar"><div class="container"> <!-- logo or branding image on left side --><div class="navbar-brand"> <a class="navbar-item" href="https://blog.showipintbri.com/pages/showipintbri/"> <strong>Failing Forward</strong> </a><div class="navbar-burger" data-target="navbar-menu"> <span></span> <span></span> <span></span>
+</div>
+</div>
+<!-- children of navbar-menu must be navbar-start and/or navbar-end --><div class="navbar-menu has-background-black" id="navbar-menu"> <!-- navbar items | left side --> <!--<div class="navbar-start"></div>--> <!-- navbar items | right side --><div class="navbar-end"> <a class="navbar-item " href="https://blog.showipintbri.com/pages/showipintbri/">HOME</a> <a class="navbar-item" href="https://blog.showipintbri.com/pages/showipintbri/#about">ABOUT</a> <a class="navbar-item" href="https://blog.showipintbri.com/pages/showipintbri/#contact">CONTACT</a><div class="navbar-item has-dropdown is-hoverable"> <a class="navbar-link"> BLOG </a><div class="navbar-dropdown has-background-black is-left"> <a href="https://blog.showipintbri.com/pages/showipintbri/blog" class="navbar-item has-text-grey-light "> BLOG POSTS </a> <a href="https://blog.showipintbri.com/pages/showipintbri/tags" class="navbar-item has-text-grey-light "> TAGS </a> <!-- <a href="https://blog.showipintbri.com/pages/showipintbri/categories" class="navbar-item has-text-grey-light "> CATEGORIES </a> <a href="https://blog.showipintbri.com/pages/showipintbri/search" class="navbar-item has-text-grey-light "> SEARCH </a> -->
+</div>
+</div>
+</div>
+</div>
+</div></nav><!-- Bulma Navbar JS --> <script> document.addEventListener('DOMContentLoaded', function () { /* Get all "navbar-burger" elements */ var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0); /* Check if there are any navbar burgers */ if ($navbarBurgers.length > 0) { /* Add a click event on each of them */ $navbarBurgers.forEach(function ($el) { $el.addEventListener('click', function () { /* Get the target from the "data-target" attribute */ var target = $el.dataset.target; var $target = document.getElementById(target); /* Toggle the class on both the "navbar-burger" and the "navbar-menu" */ $el.classList.toggle('is-active'); $target.classList.toggle('is-active'); }); }); } }); </script><section class="hero is-fullheight has-text-centered" id="post"><div class="hero-body"><div class="container"> <a href="/pages/showipintbri/blog/pcapng-hex" class="has-text-black" id="title"><h1 class="title has-text-centered is-2 has-text-weight-semibold ">Modifying PCAPng File Structure using a Raw Hex Editor</h1></a><hr class="has-background-black">
+<div class="columns is-variable is-5">
+<div class="column is-6"><figure class="image is-16by9 has-shadow"> <img src="/assets/images/posts/2021-04-14-pcapng-hex/pcapng-hex-title.png" alt="" id="post-image"></figure></div>
+<div class="subtitle column is-5 has-text-left-desktop has-text-left-fullhd has-text-left-tablet has-text-center-mobile">
+<p id="description" class="content is-small has-text-weight-medium is-uppercase">By manually changing the Linktype using a hex editor in the Interface Description Block (IDB) of the PCAPng file will convince the packet analysis software that only 1 type of interfaces were available at the time of capture.</p>
+<p class="subtitle is-6 is-uppercase has-text-weight-normal has-text-black-ter">Published on <b>April 14, 2021</b> by <a href="https://twitter.com/showipintbri" target="_blank"><b class="has-text-link"><u>Tony E.</u></b> </a></p>
+<p class="subtitle is-uppercase"> <i class="fas fa-tags"></i> <a href="/blog/tag/pcap"><span class="tag is-link">pcap</span></a> <a href="/blog/tag/hex"><span class="tag is-link">hex</span></a> <a href="/blog/tag/zeek"><span class="tag is-link">zeek</span></a> <a href="/blog/tag/suricata"><span class="tag is-link">suricata</span></a> <a href="/blog/tag/brim"><span class="tag is-link">brim</span></a></p>
+<p class="subtitle is-uppercase"><i class="fas fa-clock"></i> <b class="has-text-link"> 9 min </b>READ</p>
+</div>
+</div>
+<div class="content has-text-left-desktop has-text-left-fullhd has-text-left has-text-left-tablet has-text-left-mobile">
+<p></p>
+<dl>
+<dt><strong>tl;dr</strong></dt>
+<dd>By manually changing the Linktype using a hex editor in the Interface Description Block (IDB) of the PCAPng file will convince the packet analysis software that only 1 type of interfaces were available at the time of capture.</dd>
+</dl>
+<p><strong>WARNING:</strong> Throughout this post I reference “PCAP” and “PCAPng” interchangeably. I also perform operations on files who have the extension *.pcap while their file structure is actually *.pcapng . Everything in this post whether *.pcap or *.pcapng should be *.pcapng. Thank you.</p>
+<p>In one of my recent blog posts I discussed how some packet analysis tools have trouble processing a PCAPng file containing more than 1 interface type. Specifically I had a PCAPng file containing:</p>
+<ul>
+<li>LINKTYPE_ETHERNET (1)</li>
+<li>LINKTYPE_LINUX_SLL (113)</li>
+</ul>
+<p>See that post <a href="https://showipintbri.github.io/blog/sll-tracewrangler">here</a>.</p>
+<p>At the bottom of that post I left with an indication that this could be done manually but I wasn’t quite sure how. This unanswered question has bothered me. I needed to know “Why?” and “How?”. This led to a path I never thought I’d cross: Manually editing raw hex to manipulate files.</p>
+<p>My idea at the time was if we split the packets from the PCAPng file into 2 separate files each containing traffic from only 1 interface type, the packet analysis tools should have no problem processing them individually.</p>
+<p>Using <strong>tshark</strong> I split the protocols into 2 files:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tshark -r &lt;input_file.pcapng&gt; -w eth.pcapng -Y "eth"
+tshark -r &lt;input_file.pcapng&gt; -w sll.pcapng -Y "sll"
+</code></pre></div></div>
+<p>The above tshark commands will create 2 PCAPng files each containing only like-traffic using the display filter. With wireshark you can verify all the packets are alike within each file. Each tool tested (Zeek, Suricata, Brim &amp; tcpdump) still gives the same error processing these new PCAPs as they did when processing the single PCAP containing both Layer-2 protocols. (see this <a href="https://showipintbri.github.io/blog/sll-tracewrangler">blog post</a>)</p>
+<h1 id="hypothesis">Hypothesis</h1>
+<p>I’m thinking there are still artifacts in the new PCAPng files referencing the additional interfaces from the original PCAPng file.</p>
+<p><em>…but where?</em></p>
+<h2 id="a-clue">A Clue</h2>
+<p>When you open the new PCAPng files (eth.pcapng &amp; sll.pcapng), even though they each contain only 1 type of Layer-2 header, in the <strong>Capture File Properties</strong> you’ll see 2 types of interfaces listed under the “Link Type” column header.</p>
+<p><img src="/assets/images/posts/2021-04-14-pcapng-hex/cap-prop-interfaces-before.png" alt=""></p>
+<p>Ah-ha! This data must still be contained in the file …<em>but where?</em></p>
+<h2 id="understanding-the-pcapng-file-structure">Understanding the PCAPng File Structure</h2>
+<p>To understand what’s going on you’ll need to understand the PCAPng file structure.</p>
+<p>To summarize our issue with this specific PCAPng file and condense the information I will <strong>NOT</strong> step through every header, block field and options, instead I’ll give a high level description. Everything you’ll need to know about the PCAPng file structure is in the <a href="https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html">documentation</a>.</p>
+<p>Below is an abstract image representing the compisition of our PCAPng file, reading from left–&gt;right. The file is broken up into different sections called blocks. Below is a summary of the file blocks we’re interested in.</p>
+<p><img src="/assets/images/posts/2021-04-14-pcapng-hex/high-level.png" alt=""></p>
+<h3 id="block-types">Block Types</h3>
+<ul>
+<li>
+<strong>Section Header Block (SHB):</strong> Every PCAPng file must have at least 1 of these blocks but can have more. This does <strong>NOT</strong> contain packet data. It more like meta data around the file itself like the OS and version of the system the PCAPng file was created.</li>
+<li>
+<strong>Interface Description Block (IDB):</strong> This block contains the Linktype values. This is where an interface is identified as LINKTYPE_ETHERNET (1) or LINKTYPE_LINUX_SLL (113). The order of these blocks determines the interface ID value. The first Interface Description Block becomes interface ID: 0. All subsequent Interface Description Blocks not separated by SHB’s are incremented by 1.</li>
+<li>
+<strong>Enhanced Packet Block (EPB):</strong> This block contains the actual packet data from Layer-2 to Layer-7 and also indicates which interface ID this packet was captured from.</li>
+</ul>
+<p>Our PCAPng file closely resembles the “complex example” <a href="https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html#fssample-full">figure 6</a> from the documentation.</p>
+<p>Our PCAPng file has 2 IDB blocks and inside each IDB is a different Link Type.</p>
+<p>This is the source of our problem.</p>
+<h3 id="pcapng-hex-dump">PCAPng Hex Dump</h3>
+<p>Looking at the PCAPng file using a hex editor, I’ve outlined the sections using the same colors as the image in the previous section. I’ve also highlighted some values using bright yellow and green. The values highlighted in yellow represent the Link type and the values highlighted in green are the associated Interface ID for each EPB.</p>
+<p><img src="/assets/images/posts/2021-04-14-pcapng-hex/hex-marked-up.png" alt=""></p>
+<p><strong>NOTE:</strong> The above hex dump should be read Little-Endian. <strong>Not all captures will be Little-Endian</strong>, that is left up to your local operating system.</p>
+<table>
+<thead><tr>
+<th style="text-align: center">Block Type</th>
+<th style="text-align: center">Highlighted Color</th>
+<th style="text-align: left">HEX</th>
+<th style="text-align: right">Decimal</th>
+<th style="text-align: left">Meaning</th>
+<th style="text-align: center">Notes</th>
+<th style="text-align: center">Interface ID</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align: center">IDP</td>
+<td style="text-align: center">Yellow</td>
+<td style="text-align: left">0x71</td>
+<td style="text-align: right">113</td>
+<td style="text-align: left">LINKTYPE_LINUX_SLL</td>
+<td style="text-align: center">Linux Cooked Capture</td>
+<td style="text-align: center">0</td>
+</tr>
+<tr>
+<td style="text-align: center">IDP</td>
+<td style="text-align: center">Yellow</td>
+<td style="text-align: left">0x01</td>
+<td style="text-align: right">1</td>
+<td style="text-align: left">LINKTYPE_ETHERNET</td>
+<td style="text-align: center">Ethernet Header</td>
+<td style="text-align: center">1</td>
+</tr>
+<tr>
+<td style="text-align: center">EPB</td>
+<td style="text-align: center">Green</td>
+<td style="text-align: left">0x01</td>
+<td style="text-align: right">1</td>
+<td style="text-align: left">Use interface ID 1</td>
+<td style="text-align: center">none</td>
+<td style="text-align: center">n/a</td>
+</tr>
+<tr>
+<td style="text-align: center">EPB</td>
+<td style="text-align: center">Green</td>
+<td style="text-align: left">0x01</td>
+<td style="text-align: right">1</td>
+<td style="text-align: left">Use interface ID 1</td>
+<td style="text-align: center">none</td>
+<td style="text-align: center">n/a</td>
+</tr>
+<tr>
+<td style="text-align: center">EPB</td>
+<td style="text-align: center">Green</td>
+<td style="text-align: left">0x01</td>
+<td style="text-align: right">1</td>
+<td style="text-align: left">Use interface ID 1</td>
+<td style="text-align: center">none</td>
+<td style="text-align: center">n/a</td>
+</tr>
+</tbody>
+</table>
+<p>Using the below image, something worth noting is, some of the info is explicitly contianed in the data (‘<em>included data</em>’) and some of the info is <em>derived</em> meaning it’s not actually reflected in the bytes or bits but is derived based on it’s placement in the file structure. The first IDB block becomes ‘interface id: 0’, the second IDB becomes ‘interface id: 1’, etc …:</p>
+<p><img src="/assets/images/posts/2021-04-14-pcapng-hex/high-level-marked-up.png" alt=""></p>
+<p>In our case, using the example eth.pcapng file:</p>
+<ul>
+<li>
+<strong>All</strong> the packets reference interface ID: 1, which is the “LINKTYPE_ETHERNET” as their source interface.</li>
+<li>
+<strong>None</strong> of the packets reference interface ID: 0, which is the “LINKTYPE_LINUX_SLL”.</li>
+</ul>
+<p>We should be able to change the Link type in the first listed IDB from 0x71 –&gt; 0x01 without casing an issue.</p>
+<p>This will indicate to applications reading the PCAPng file that ‘<em>this file was produced on a system that was capturing on 2 interfaces and both were LINKTYPE_ETHERNET</em>’.</p>
+<h1 id="my-process">My Process</h1>
+<ol>
+<li>Using <code class="language-plaintext highlighter-rouge">tshark</code> split out the Layer-2 protocols into separate PCAPng files: <strong><em>eth-before.pcap</em></strong> &amp; <strong><em>sll-before.pcap</em></strong>
+</li>
+<li>Manually edit the Interface Description Blocks (IDB) using a hex editor, making both LINKTYPE fields the same, either 0x71 or 0x01, and naming the files <strong><em>eth-after.pcap</em></strong> &amp; <strong><em>sll-after.pcap</em></strong>, respectively.</li>
+<li>Testing each pcap with: tcpdump, Suricata, Zeek &amp; Brim</li>
+</ol>
+<h2 id="definitions">Definitions</h2>
+<dl>
+<dt><strong>Before</strong></dt>
+<dd>Each PCAP file contains only (1) Layer-2 protocol in the EPBs, but the SHB contains (2) IDBs with <strong><em>different</em></strong> LINKTYPEs.</dd>
+<dt><strong>After</strong></dt>
+<dd>Each PCAP file contains only (1) Layer-2 protocol in the EPBs and the SHB contains (2) IDBs which are the <strong><em>same</em></strong> LINKTYPE.</dd>
+</dl>
+<h1 id="results">Results</h1>
+<p>After changing the values you can see from this screenshot, Wireshark now thinks both interfaces are the same.</p>
+<h4 id="before">Before</h4>
+<p><img src="/assets/images/posts/2021-04-14-pcapng-hex/cap-prop-interfaces-before.png" alt=""></p>
+<h4 id="after">After</h4>
+<p><img src="/assets/images/posts/2021-04-14-pcapng-hex/cap-prop-interfaces-after.png" alt=""></p>
+<h4 id="compatibility-matrix">Compatibility Matrix</h4>
+<table>
+<thead><tr>
+<th style="text-align: left">Tool Name</th>
+<th style="text-align: center">Original Combined PCAP File</th>
+<th style="text-align: center">eth-before.pcapng</th>
+<th style="text-align: center">sll-before.pcapng</th>
+<th style="text-align: center">eth-after.pcapng</th>
+<th style="text-align: center">sll-after.pcapng</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align: left">Wireshark</td>
+<td style="text-align: center">Yes</td>
+<td style="text-align: center">Yes</td>
+<td style="text-align: center">Yes</td>
+<td style="text-align: center">Yes</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left">tshark</td>
+<td style="text-align: center">Yes</td>
+<td style="text-align: center">Yes</td>
+<td style="text-align: center">Yes</td>
+<td style="text-align: center">Yes</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left">tcpdump</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">Yes<img class="emoji" title=":+1:" alt=":+1:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="20" width="20">
+</td>
+<td style="text-align: center">Yes<img class="emoji" title=":+1:" alt=":+1:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="20" width="20">
+</td>
+</tr>
+<tr>
+<td style="text-align: left">zeek</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">Yes<img class="emoji" title=":+1:" alt=":+1:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="20" width="20">
+</td>
+<td style="text-align: center">Yes<img class="emoji" title=":+1:" alt=":+1:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="20" width="20">
+</td>
+</tr>
+<tr>
+<td style="text-align: left">suricata</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">Yes<img class="emoji" title=":+1:" alt=":+1:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="20" width="20">
+</td>
+<td style="text-align: center">Yes<img class="emoji" title=":+1:" alt=":+1:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="20" width="20">
+</td>
+</tr>
+<tr>
+<td style="text-align: left">Brim</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">No</td>
+<td style="text-align: center">Yes <img class="emoji" title=":+1:" alt=":+1:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="20" width="20">
+</td>
+<td style="text-align: center">Yes<img class="emoji" title=":+1:" alt=":+1:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="20" width="20">
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-processing-the-before--after-pcaps">Example Processing the Before &amp; After PCAPs</h3>
+<h4 id="zeek-eth-beforepcap--eth-afterpcap">Zeek: eth-before.pcap &amp; eth-after.pcap</h4>
+<p><img src="/assets/images/posts/2021-04-14-pcapng-hex/zeek-eth-error-no-error.jpg" alt=""></p>
+<h4 id="zeek-sll-beforepcap--sll-afterpcap">Zeek: sll-before.pcap &amp; sll-after.pcap</h4>
+<p><img src="/assets/images/posts/2021-04-14-pcapng-hex/zeek-sll-error-no-error.jpg" alt=""></p>
+<h4 id="tcpdump-eth-beforepcap--eth-afterpcap">tcpdump: eth-before.pcap &amp; eth-after.pcap</h4>
+<p><img src="/assets/images/posts/2021-04-14-pcapng-hex/tcp-dump-error-no-error.jpg" alt=""></p>
+<h2 id="wireshark-side-by-side">Wireshark Side-By-Side</h2>
+<p>This shows the meta-data around duration and file size the same, with the Hash values changing because of the 1 byte that was modified. <img src="/assets/images/posts/2021-04-14-pcapng-hex/wireshark-side-by-side.png" alt=""></p>
+<h3 id="packet-view-for-reference">Packet View for Reference</h3>
+<p>If you wanted to correlate the Hex dump image from earlier in this post against how it’s shown in Wireshark, you would be looking at these 3 packets: <img src="/assets/images/posts/2021-04-14-pcapng-hex/wireshark-3-packets.png" alt=""></p>
+<h2 id="questions">Questions</h2>
+<ol>
+<li><dl>
+<dt><strong>Why didn’t you just delete the unused/unreferenced Interface Description Block (IDB)?</strong></dt>
+<dd>Because of how the interfaces are ID’d, if all the packets we referencing ID #1 (the second IDB), I would have to re-write all the interface ID references in all the EPBs and point them to interface ID #0. I really just wanted to make as few changes as possible. Leaving an unused ‘ghost IDB’ didn’t seem to hurt anything as long as the LINKTYPE was the same.</dd>
+</dl></li>
+<li><dl>
+<dt><strong>What hex editor did you use?</strong></dt>
+<dd>I used the “hex editor” plugin for Notepad++. Since I don’t do this often, I don’t have a favorite tool.</dd>
+</dl></li>
+<li><dl>
+<dt><strong>How was the original PCAP created containing multiple LINKTYPE’s?</strong></dt>
+<dd>I’m not sure how the PCAP’s author originally created file but if you use linux and capture packets on a system that has multiple interfaces and use: <code class="language-plaintext highlighter-rouge">tcpdump -i any</code> this should generate a PCAP using Linux Cooked Capture (<code class="language-plaintext highlighter-rouge">sll</code>) and then again but this time specifying a single interface: <code class="language-plaintext highlighter-rouge">tcpdump -i eth0</code> and merge those files together, you’ll get a mixed IDB in the final PCAP file. <strong>NOTE:</strong> You may have to convert one or both to PCAPng file format first before merging.</dd>
+</dl></li>
+</ol>
+<h2 id="reference-links">Reference Links</h2>
+<ol><li><a href="https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html">https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html</a></li></ol>
+</div>
+</div></div></section><footer id="footer"> <!--Footer Button--><div class="container has-text-centered has-background-grey-darker" id="backtotop"> <a class="has-text-white" onclick="window.scroll(0,0)">BACK TO TOP</a>
+</div>
+<!--Footer Main Section--><div class="has-background-grey-darker"><div class="container columns"> <!--Name Section--><div class="column has-text-left-desktop has-text-centered-mobile"> <a href="https://blog.showipintbri.com/pages/showipintbri/#about"><div class="columns">
+<div class="column is-one-fifth-desktop is-one-fifth-fullhd is-one-quarter-tablet"><figure class="image is-64x64"> <img class="is-rounded" src="/assets/images/tonye.jpg"></figure></div>
+<div class="column is-marginless">
+<h5 class="has-text-grey-lighter">Tony E.</h5>
+<div class="content has-text-grey"><p>Tony E. is a network security engineer, CCIE# 64908 &amp; GIAC: Network Fore...</p></div>
+</div>
+</div></a>
+</div>
+<!--Link Section--><div class="column has-text-white">
+<h3>More Links</h3>
+<!--<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/certifications">certifications</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/cisco-asa">cisco asa</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/eve-ng">eve-ng</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/future">future</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/giac">giac</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/goals">goals</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/google-cloud">google cloud</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/gparted">gparted</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/hex">hex</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/internet-access">internet access</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/intrusion-prevention">intrusion prevention</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/ips">ips</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/live">live</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/network-collective">network collective</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/network-field-day">network field day</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/network-forensics">network forensics</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/nfd23">nfd23</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/organization">organization</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/partitions">partitions</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/past">past</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/pcap">pcap</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/present">present</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/sans">sans</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/scapy">scapy</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/scripts">scripts</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/sharkfest">sharkfest</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/stream">stream</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/surface-pro">surface pro</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/suricata">suricata</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/t-i-w-a">t.i.w.a</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/tags">Tags</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/tcp">tcp</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/tcpdump">tcpdump</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/tracewrangler">tracewrangler</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/vyos">vyos</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/wireshark">wireshark</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/zeek">zeek</a></li>--><li> <a target="_blank" href="https://blog.showipintbri.com/pages/showipintbri/feed.xml">Subscribe via RSS</a>
+</li>
+</div>
+<!--Blog-post Section--><div class="column has-text-white">
+<h3>Recent Posts</h3>
+<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/sharkfest-2021">WiresharkFest 2021 (US)</a>
+</li>
+<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/suricata-vyos">Build Your Own IPS w/ Suricata Container on VyOS Router</a>
+</li>
+<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/sans-for572">SANS: FOR572 &amp; Passing the GNFA!!!</a>
+</li>
+</div>
+</div></div>
+<div class="has-background-black has-text-centered has-text-white" id="credits"> <i class="far fa-copyright"></i> 2021 | Based on <a href="https://github.com/thedevslot/WhatATheme" target="_blank" rel="noopener noreferrer">WhatATheme</a> by <a href="https://www.twitter.com/thedevslot" target="_blank" rel="noopener noreferrer">TheDevsLot</a> Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>
+</div></footer></body></html>

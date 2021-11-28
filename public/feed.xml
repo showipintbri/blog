@@ -1,0 +1,1526 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://blog.showipintbri.com/pages/showipintbri/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.showipintbri.com/pages/showipintbri/" rel="alternate" type="text/html" /><updated>2021-11-27T18:53:22-06:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/feed.xml</id><title type="html">Failing Forward</title><subtitle>Tony E's Journey through Tech and Life.</subtitle><entry><title type="html">WiresharkFest 2021 (US)</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/sharkfest-2021" rel="alternate" type="text/html" title="WiresharkFest 2021 (US)" /><published>2021-09-20T00:00:00-05:00</published><updated>2021-09-20T00:00:00-05:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/sharkfest-2021</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/sharkfest-2021">&lt;p&gt;SharkFest the anual wireshark developer conference has just concluded and I had an absolute blast! I bought a pass to all 3 pre-conference training classes (spanning 4-days) and also a full-conference pass:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;2-Day Network Analysis and TCP Deep Dive with Wireshark (Chris Greer)&lt;/li&gt;
+  &lt;li&gt;Next Generation Protocols &amp;amp; Advanced Network Analysis (Phill Shade)&lt;/li&gt;
+  &lt;li&gt;Analyzing Pcaps Faster with Filters (Betty DuBois)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;This year I presented at SharkFest!&lt;/strong&gt; My presentation was titled “&lt;em&gt;School from Home: Watching the wire with Wireshark&lt;/em&gt;” where I talked about some interested traffic I found coming from the school provided Chromebooks and how I took a deeper dive to taking advantage of implied trust. (When ever the video gets posted to YouTube I’ll include a link)&lt;/p&gt;
+
+&lt;p&gt;I spent most of the 2nd day of conference presentation playing the CTF. The CTF this year was really well done with tons of challenges and some really hard ones too. If you want a CTF that focussed on packet captures and packet analysis this is the place to be. Overall I got 5th place out of 68 teams and I’m happy with that.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/posts/2021-09-20-sharkfest-21/ctf-scoreboard.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;something-worth-doing-is-worth-doing-twice---tony-e&quot;&gt;“Something worth doing, is worth doing twice!” - Tony E.&lt;/h3&gt;
+&lt;p&gt;Because of a configuration error I realised after completing all my slides and generating my example PCAPs, I needed to spend most of my time during the training classes pulling double duty. I was halfway participating in class and the other half remaking my slides and PCAPs. I even spent most of Day-1 from the conference finalizing my slides and semi-rehearsing for my presentation.&lt;/p&gt;
+
+&lt;h3 id=&quot;imposter-syndrome&quot;&gt;Imposter Syndrome&lt;/h3&gt;
+&lt;p&gt;This was the first ‘conference’ I’ve spoken at. While I typically don’t have any major stage fright, I was feeling a bit nervous because everyone who was presenting were folks who I look up to as experts in the field of packet analysis and I was exeriencing some major imposter syndrome.&lt;/p&gt;
+
+&lt;p&gt;Despite my imposter syndrome, I felt good about the execution of my presentation. I would’nt have changed anything about my presentation except timing. I should’ve start of a little faster pace because at around the &lt;em&gt;halfway mark&lt;/em&gt; I realized I only made it through 1/4th of my slides. I quickly picked up the pace and at that rate I felt was too fast and not comprehendible. I also had to gloss-over or skip some more in-depth analysis but… It is what it is. I’ll make that a &lt;em&gt;lessons Learned&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;things-i-learned-from-sharkfest&quot;&gt;Things I Learned From SharkFest&lt;/h2&gt;
+
+&lt;h3 id=&quot;-emojis-in-the-column-headers-&quot;&gt;😀 Emoji’s in the Column Headers 😁&lt;/h3&gt;
+&lt;p&gt;The Wireshark column headers supports unicode characters, such as emojis. As soon as I learned this I started graffiti’ing my profiles with pointless and rediculous smiley faces. This might seem useless but there are a few practical uses:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Columns related to time can get a fancy stopwatch: ⏱&lt;/li&gt;
+  &lt;li&gt;Delta columns can get a: 🔺 (or any ‘delta’ style shape)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;coloring-rules-&quot;&gt;Coloring Rules 🟥🟧🟨🟩🟦🟪🟫&lt;/h3&gt;
+&lt;p&gt;I’ve seen SharkFest presentations before where customizing you profiles can give you an advantage or efficiency when analyzing certain traffic. While it really just comes down to personal preferences, in the past I brushed this idea &lt;em&gt;under-the-rug&lt;/em&gt; and focused on my protocol fundamentals. Well, maybe it’s a sense maturity, but I now recognize the value of coloring rules: It’s not just coloring rows for personal preference but also creating a column for your coloring rules and using the rule name as a filter.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Maybe this^ needs a blog post all on it’s own?&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;pcap-file-structure&quot;&gt;PCAP File Structure&lt;/h3&gt;
+&lt;p&gt;Recently I’ve needed to dive into the file structure of PCAP and PCAPng file types. See: &lt;a href=&quot;https://showipintbri.github.io/blog/pcapng-hex&quot;&gt;Modifying PCAPng File Structure Using A Raw Hex Editor&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/showipintbri/status/1437070853062156296&quot;&gt;https://twitter.com/showipintbri/status/1437070853062156296&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I had no idea you could investigate the file structure itself within Wireshark. For that navigate to: &lt;strong&gt;View &amp;gt; Reload as File Format/Capture&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/posts/2021-09-20-sharkfest-21/ws-file-format.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;^ This is exactly why I love attending conferences. You learn about cool projects people are doing. Tips &amp;amp; Tricks to make your job easier and an opportunity to as experts questions!&lt;/p&gt;
+
+&lt;h3 id=&quot;tcp-sacks-and-tcp-stream-graphs&quot;&gt;TCP SACK’s and TCP Stream Graphs&lt;/h3&gt;
+&lt;p&gt;Last year I took Chris Greer’s TCP trainings prior to SharkFest. I learned a ton! Infact there was so much to learn I deffinitely didn’t absorb all of it. So, this year I signed up for the training again hoping that a second time going over the material it would sink-in a little more… and it did. My focus was on day 2 of the training as Day 1 is alot of TCP basics and Wireshark basics. Day 2 is some more advanced TCP topics such as TCP SACK and understanding stream graphs. &amp;lt;- This was the content I came for.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/posts/2021-09-20-sharkfest-21/tcp-stream-graph.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I was having trouble remembering which lines indicated the various TCP header components. Also, I just wanted more organic practice of looking at the graphs on real traffic to help train my eyes and my mind to recognize graph shapes and paterns.&lt;/p&gt;
+
+&lt;h3 id=&quot;read-filters&quot;&gt;Read Filters&lt;/h3&gt;
+&lt;p&gt;I often have to open files greater than 1 GB. This is one of the reasons I lean on so many other tools for processing large files before diving in with the Wireshark Microscope. Processing large captures in Wireshark is dificult because each time you change or update a display filter it needs to re-scan the entire file which can takes time. Read filters will apply to when you open the PCAP so your subsequent display filters will be on a much smaller sub-set of traffic.&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;Read filter&lt;/strong&gt; can be fore when to open a PCA from the Wireshark interface: &lt;strong&gt;File &amp;gt; Open…&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/posts/2021-09-20-sharkfest-21/ws-read-filter.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; It is will still take time on initial load.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; When a display filter is applied it can still take a long time if the after the read filter you still have alot of packets.&lt;/p&gt;
+
+&lt;h3 id=&quot;window-scaling-omg-window-scaling&quot;&gt;Window Scaling, OMG Window Scaling!!!&lt;/h3&gt;
+&lt;p&gt;During the CTF there was a challenge about TCP Window Scaling. This one took me a while. Alot longer than it should have but I was stuck on the fact that Wireshark was calculating the ‘Calculated Window Size’ for me and I couldn’t figure out the math it was use or hos it was deriving the values it was using. Sure I could’ve just popped into the chat and asked one of th emany experts on the subject but I really wanted to figure this out on my own.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/posts/2021-09-20-sharkfest-21/ws-wndw-scl.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The Window Scale value is a single byte in width. The &lt;strong&gt;Window Scale Factor&lt;/strong&gt; is 2^[window Scale Value]: 2 to the ___th power.&lt;/p&gt;
+
+&lt;p&gt;This value, if the option is agreed upon from both end points, is applied to all TCP packets after the SYN &amp;amp; SYN/ACK.&lt;/p&gt;
+
+&lt;p&gt;Reference: &lt;a href=&quot;https://datatracker.ietf.org/doc/html/rfc1323#page-8&quot;&gt;https://datatracker.ietf.org/doc/html/rfc1323#page-8&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I title this section “Window Scaling, OMG Window Scaling” because there’s something to be said about memory and emotions. I don’t know the exact science behind it but you are much more likely to remember shomething if you have a specific emotion tied to that event or that thing. In this case, the emotion I felt when finally sorting out the window scaling I’ll never forget this now. Forever it will be burned in my brain as: “Two to the __nth!”&lt;/p&gt;
+
+&lt;h2 id=&quot;in-conclusion&quot;&gt;In Conclusion&lt;/h2&gt;
+&lt;p&gt;While it’s been on my radar for much longer, Sharkfest has been amazing for me over the past 2 years. I have learned so much about packet analysis and understanding the network traffic that uses the plumbing we(network engineers) build. I also had fun hanging out in the “Developerd Den” where I was chatting and interacting with some of Wiresharks core developers. I was able to ask about certain features and make suggestions for upcoming features. Wireshark truly is an amazing project with a great community around it 🤘.&lt;/p&gt;</content><author><name></name></author><category term="wireshark" /><category term="sharkfest" /><category term="tcp" /><category term="2021" /><summary type="html">SharkFest the anual wireshark developer conference has just concluded and I had an absolute blast! I bought a pass to all 3 pre-conference training classes (spanning 4-days) and also a full-conference pass: 2-Day Network Analysis and TCP Deep Dive with Wireshark (Chris Greer) Next Generation Protocols &amp;amp; Advanced Network Analysis (Phill Shade) Analyzing Pcaps Faster with Filters (Betty DuBois) This year I presented at SharkFest! My presentation was titled “School from Home: Watching the wire with Wireshark” where I talked about some interested traffic I found coming from the school provided Chromebooks and how I took a deeper dive to taking advantage of implied trust. (When ever the video gets posted to YouTube I’ll include a link) I spent most of the 2nd day of conference presentation playing the CTF. The CTF this year was really well done with tons of challenges and some really hard ones too. If you want a CTF that focussed on packet captures and packet analysis this is the place to be. Overall I got 5th place out of 68 teams and I’m happy with that. “Something worth doing, is worth doing twice!” - Tony E. Because of a configuration error I realised after completing all my slides and generating my example PCAPs, I needed to spend most of my time during the training classes pulling double duty. I was halfway participating in class and the other half remaking my slides and PCAPs. I even spent most of Day-1 from the conference finalizing my slides and semi-rehearsing for my presentation. Imposter Syndrome This was the first ‘conference’ I’ve spoken at. While I typically don’t have any major stage fright, I was feeling a bit nervous because everyone who was presenting were folks who I look up to as experts in the field of packet analysis and I was exeriencing some major imposter syndrome. Despite my imposter syndrome, I felt good about the execution of my presentation. I would’nt have changed anything about my presentation except timing. I should’ve start of a little faster pace because at around the halfway mark I realized I only made it through 1/4th of my slides. I quickly picked up the pace and at that rate I felt was too fast and not comprehendible. I also had to gloss-over or skip some more in-depth analysis but… It is what it is. I’ll make that a lessons Learned. Things I Learned From SharkFest 😀 Emoji’s in the Column Headers 😁 The Wireshark column headers supports unicode characters, such as emojis. As soon as I learned this I started graffiti’ing my profiles with pointless and rediculous smiley faces. This might seem useless but there are a few practical uses: Columns related to time can get a fancy stopwatch: ⏱ Delta columns can get a: 🔺 (or any ‘delta’ style shape) Coloring Rules 🟥🟧🟨🟩🟦🟪🟫 I’ve seen SharkFest presentations before where customizing you profiles can give you an advantage or efficiency when analyzing certain traffic. While it really just comes down to personal preferences, in the past I brushed this idea under-the-rug and focused on my protocol fundamentals. Well, maybe it’s a sense maturity, but I now recognize the value of coloring rules: It’s not just coloring rows for personal preference but also creating a column for your coloring rules and using the rule name as a filter. Maybe this^ needs a blog post all on it’s own? PCAP File Structure Recently I’ve needed to dive into the file structure of PCAP and PCAPng file types. See: Modifying PCAPng File Structure Using A Raw Hex Editor and https://twitter.com/showipintbri/status/1437070853062156296. I had no idea you could investigate the file structure itself within Wireshark. For that navigate to: View &amp;gt; Reload as File Format/Capture ^ This is exactly why I love attending conferences. You learn about cool projects people are doing. Tips &amp;amp; Tricks to make your job easier and an opportunity to as experts questions! TCP SACK’s and TCP Stream Graphs Last year I took Chris Greer’s TCP trainings prior to SharkFest. I learned a ton! Infact there was so much to learn I deffinitely didn’t absorb all of it. So, this year I signed up for the training again hoping that a second time going over the material it would sink-in a little more… and it did. My focus was on day 2 of the training as Day 1 is alot of TCP basics and Wireshark basics. Day 2 is some more advanced TCP topics such as TCP SACK and understanding stream graphs. &amp;lt;- This was the content I came for. I was having trouble remembering which lines indicated the various TCP header components. Also, I just wanted more organic practice of looking at the graphs on real traffic to help train my eyes and my mind to recognize graph shapes and paterns. Read Filters I often have to open files greater than 1 GB. This is one of the reasons I lean on so many other tools for processing large files before diving in with the Wireshark Microscope. Processing large captures in Wireshark is dificult because each time you change or update a display filter it needs to re-scan the entire file which can takes time. Read filters will apply to when you open the PCAP so your subsequent display filters will be on a much smaller sub-set of traffic. The Read filter can be fore when to open a PCA from the Wireshark interface: File &amp;gt; Open… NOTE: It is will still take time on initial load. NOTE: When a display filter is applied it can still take a long time if the after the read filter you still have alot of packets. Window Scaling, OMG Window Scaling!!! During the CTF there was a challenge about TCP Window Scaling. This one took me a while. Alot longer than it should have but I was stuck on the fact that Wireshark was calculating the ‘Calculated Window Size’ for me and I couldn’t figure out the math it was use or hos it was deriving the values it was using. Sure I could’ve just popped into the chat and asked one of th emany experts on the subject but I really wanted to figure this out on my own. The Window Scale value is a single byte in width. The Window Scale Factor is 2^[window Scale Value]: 2 to the ___th power. This value, if the option is agreed upon from both end points, is applied to all TCP packets after the SYN &amp;amp; SYN/ACK. Reference: https://datatracker.ietf.org/doc/html/rfc1323#page-8 I title this section “Window Scaling, OMG Window Scaling” because there’s something to be said about memory and emotions. I don’t know the exact science behind it but you are much more likely to remember shomething if you have a specific emotion tied to that event or that thing. In this case, the emotion I felt when finally sorting out the window scaling I’ll never forget this now. Forever it will be burned in my brain as: “Two to the __nth!” In Conclusion While it’s been on my radar for much longer, Sharkfest has been amazing for me over the past 2 years. I have learned so much about packet analysis and understanding the network traffic that uses the plumbing we(network engineers) build. I also had fun hanging out in the “Developerd Den” where I was chatting and interacting with some of Wiresharks core developers. I was able to ask about certain features and make suggestions for upcoming features. Wireshark truly is an amazing project with a great community around it 🤘.</summary></entry><entry><title type="html">Build Your Own IPS w/ Suricata Container on VyOS Router</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/suricata-vyos" rel="alternate" type="text/html" title="Build Your Own IPS w/ Suricata Container on VyOS Router" /><published>2021-06-13T00:00:00-05:00</published><updated>2021-06-13T00:00:00-05:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/suricata-vyos</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/suricata-vyos">&lt;p&gt;In this post I’m going to walk through building a best-in-class, in-line, fail-open, IPS using a Suricata container running on a VyOS router.&lt;/p&gt;
+
+&lt;p&gt;After reading a &lt;a href=&quot;https://blog.vyos.io/vyos-project-may-2021-update&quot;&gt;recent blog&lt;/a&gt; from the VyOS dev team demonstrating an example of supporting containers natively from the VyOS CLI, I knew I had to try it with Suricata. Combining an amazing routing platform, with best in class Network Security Monitoring (NSM) and Intrusion Prevention System (IPS), both of which are Free and Open Source Software (FOSS) has been a dream of mine.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;INB4:&lt;/strong&gt; Yes, I am well aware that pfsense and OPNsense has Suricata and FRR plugin’s available. I’ll withold my opinions of them from this post and save my commentary on them for a different post. (I’m not a fan! :hushed:)&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem-statement&quot;&gt;The Problem Statement:&lt;/h2&gt;
+&lt;p&gt;I needed to build a proof-of-concept to standardize the router/gateway/edge hardware for my companies locations.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Hardware should be my companies own hardware.&lt;/li&gt;
+  &lt;li&gt;Platform must support automation via ansible and API.&lt;/li&gt;
+  &lt;li&gt;Platform should be FOSS.&lt;/li&gt;
+  &lt;li&gt;Software should be modular. (the ability to add, remove or modify components as necessary)&lt;/li&gt;
+  &lt;li&gt;Network Security Monitoring (NSM), Intrusion Prevention System (IPS) and other Next-Gen FW capabilities should be supported.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This blog doesn’t dive into automation or other resource and performance monitoring but, it is the first in a series of proof of concepts using my companies own hardware as an all-in-one platform that fits &lt;em&gt;our&lt;/em&gt; needs. Hopefully many more fun usecases and experiments to come. 🤞&lt;/p&gt;
+
+&lt;ul class=&quot;task-list&quot;&gt;
+  &lt;li&gt;&lt;strong&gt;Proof of Concept:&lt;/strong&gt;&lt;br /&gt;
+    &lt;ul class=&quot;task-list&quot;&gt;
+      &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; checked=&quot;checked&quot; /&gt;VyOS &amp;amp; Suricata&lt;/li&gt;
+      &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;VyOS &amp;amp; Zeek&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Performance Testing:&lt;/strong&gt;&lt;br /&gt;
+    &lt;ul class=&quot;task-list&quot;&gt;
+      &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;VyOS &amp;amp; Suricata on SN-3000 Hardware&lt;/li&gt;
+      &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;VyOS &amp;amp; Zeek on SN-3000 Hardware&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;Automation Tooling&lt;/li&gt;
+  &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;Operational Playbooks&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;hardware-specifications&quot;&gt;Hardware Specifications&lt;/h3&gt;
+&lt;p&gt;I’m using my companies own &lt;a href=&quot;https://www.sealingtech.com/hardware/sn-3000/&quot;&gt;SN-3000 series small form-factor node&lt;/a&gt;. While this unit can support larger specs, I opted for reduced spec’d components:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Memory:&lt;/strong&gt; 128GB RAM&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Storage:&lt;/strong&gt; 128GB SSD&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Processor:&lt;/strong&gt; Intel(R) Xeon(R) D-2183IT CPU @ 2.20GHz&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;img style=&quot;max-width:100%&quot; src=&quot;/assets/images/posts/2021-06-13-suricata-vyos/stech-sn3000-front.png&quot; /&gt;&lt;/td&gt;
+&lt;td&gt;&lt;img style=&quot;max-width:100%&quot; src=&quot;/assets/images/posts/2021-06-13-suricata-vyos/stech-sn3000-rear.png&quot; /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;platform-and-software-versions&quot;&gt;Platform and Software Versions&lt;/h3&gt;
+&lt;p&gt;I’m calling the base VyOS a “platform”.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Platform:&lt;/strong&gt; VyOS 1.4-rolling-202105192127 (sagitta)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Podman:&lt;/strong&gt; 3.0.1&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Suricata:&lt;/strong&gt; 6.0.2 (container)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;network-architecture&quot;&gt;Network Architecture&lt;/h3&gt;
+&lt;p&gt;I’m currently leveraging this box at my home, during the proof-of-concept period. It is acting as my internet gateway performing outbound NAT, basic stateful ACL’s and inter-VLAN routing (router-on-a-stick).&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;The layer-2 trunk uplink from my switch to the SN-3000 is 1Gbps copper.&lt;/li&gt;
+  &lt;li&gt;The link from the SN-3000 to my ONT CE (FTTH) is 1Gbps copper with 1Gbps CIR from my ISP.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;tldr-heres-the-code&quot;&gt;TL;DR: Here’s the Code&lt;/h2&gt;
+
+&lt;h4 id=&quot;1-edit-registriesconf-and-add-the-docker-registry&quot;&gt;1. Edit registries.conf and add the docker registry:&lt;/h4&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;nano /etc/containers/registries.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;2-uncomment-and-change-examplecom--to--dockerio-save-and-exit&quot;&gt;2. Uncomment and change “example.com” -to-&amp;gt; “docker.io”, save and exit.&lt;/h4&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;unqualified-search-registries &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;docker.io&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;3-pull-the-suricata-container&quot;&gt;3. Pull the Suricata container:&lt;/h4&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;podman pull jasonish/suricata:latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;4-verify&quot;&gt;4. Verify:&lt;/h4&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;podman images
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;5-create-a-directory-structure-to-store-rules-files-logs-and-configurations-between-container-restarts&quot;&gt;5. Create a directory structure to store rules files, logs and configurations between container restarts.&lt;/h4&gt;
+&lt;p&gt;Below is my preference:&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;   ~/suricata/
+      |
+      |-etc/ (suricata configurations and rule exclusions)
+      |-logs/ (suricata stats.log, fast.log &amp;amp; eve.json)
+      |-rules/ (suricata combined rules files)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~ &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;mkdir &lt;/span&gt;suricata &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;suricata &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;mkdir &lt;/span&gt;etc &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;mkdir &lt;/span&gt;rules &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;mkdir &lt;/span&gt;logs 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;6-verify-suricata-was-built-with-nfq-support&quot;&gt;6. Verify suricata was built with NFQ support:&lt;/h4&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# From within ~/suricata/ run:&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;podman run &lt;span class=&quot;nt&quot;&gt;--rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;host &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+     &lt;span class=&quot;nt&quot;&gt;--cap-add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;net_admin &lt;span class=&quot;nt&quot;&gt;--cap-add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;sys_nice &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+     &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;/logs:/var/log/suricata &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+     &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;/etc:/etc/suricata &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+     &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;/rules:/var/lib/suricata &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+         jasonish/suricata:latest &lt;span class=&quot;nt&quot;&gt;--build-info&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;From the output printed, look for:  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NFQueue support: yes&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;-stop&quot;&gt;🛑 STOP!&lt;/h2&gt;
+&lt;p&gt;When you ran the command above in Step #6, the suricata container started, checked the directories for its configuration files, didn’t find any, and placed the default configuration files in the default directory: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/suricata/etc/suricata.yaml&lt;/code&gt;, then it ran with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--build-info&lt;/code&gt; flag and stopped.&lt;/p&gt;
+
+&lt;p&gt;This means you now have a default &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;suricata.yaml&lt;/code&gt; file in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/suricata/etc/&lt;/code&gt; that you can modify to configure suricata to run and operate how we need it.&lt;/p&gt;
+
+&lt;p&gt;Best practice is to make a backup copy of this default YAML file so you can always revert to default if you booger up your configuration.&lt;/p&gt;
+
+&lt;h2 id=&quot;-go&quot;&gt;🟢 GO!&lt;/h2&gt;
+&lt;h4 id=&quot;7-configure-suricatayaml&quot;&gt;7. Configure suricata.yaml&lt;/h4&gt;
+&lt;p&gt;Edit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/suricata/etc/suricata.yaml&lt;/code&gt; to suit your needs. All of the available configuration options in this YAML file is way to much to review in this short blog. Please see &lt;a href=&quot;https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html&quot;&gt;https://suricata.readthedocs.io/&lt;/a&gt; for a much more verbose description of the configuration file content and options.&lt;/p&gt;
+
+&lt;p&gt;Below are just &lt;em&gt;some&lt;/em&gt; of the options I changed for &lt;strong&gt;my use case&lt;/strong&gt;.&lt;/p&gt;
+&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td align=&quot;left&quot;&gt;&lt;b&gt;Original suricata.yaml&lt;/b&gt;&lt;/td&gt;
+		&lt;td align=&quot;left&quot;&gt;&lt;b&gt;My suricata.yaml&lt;/b&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td align=&quot;left&quot;&gt;
+&lt;pre&gt;
+outputs:
+  - eve-log:
+      community-id: false
+      types:
+        - anomaly:
+	    enabled: yes
+&lt;/pre&gt;
+		&lt;/td&gt;
+		&lt;td align=&quot;left&quot;&gt;
+&lt;pre&gt;
+outputs:
+  - eve-log:
+      community-id: &lt;b&gt;true&lt;/b&gt;
+      types:
+        - anomaly:
+	    enabled: &lt;b&gt;no&lt;/b&gt;
+&lt;/pre&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td align=&quot;left&quot;&gt;
+&lt;pre&gt;
+host-mode: auto
+&lt;/pre&gt;
+		&lt;/td&gt;
+		&lt;td align=&quot;left&quot;&gt;
+&lt;pre&gt;
+host-mode: &lt;b&gt;router&lt;/b&gt;
+&lt;/pre&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td align=&quot;left&quot;&gt;
+&lt;pre&gt;
+nfq:
+#  mode: accept
+#  repeat-mark: 1
+#  repeat-mask: 1
+#  bypass-mark: 1
+#  bypass-mask: 1
+#  route-queue: 2
+#  batchcount: 20
+#  fail-open: yes
+&lt;/pre&gt;
+		&lt;/td&gt;
+		&lt;td align=&quot;left&quot;&gt;
+&lt;pre&gt;
+nfq:
+&lt;b&gt;  mode: accept&lt;/b&gt;
+#  repeat-mark: 1
+#  repeat-mask: 1
+#  bypass-mark: 1
+#  bypass-mask: 1
+#  route-queue: 2
+#  batchcount: 20
+&lt;b&gt;  fail-open: yes&lt;/b&gt;
+&lt;/pre&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The Suricata documentation has a really good section explaining the various &lt;a href=&quot;https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html#nfq&quot;&gt;nfq modes&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;8-start-the-suricata-container&quot;&gt;8. Start the suricata container:&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Since this is purely a &lt;em&gt;proof of concept&lt;/em&gt; and not optimized for performance, I’m leveraging a single queue.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# From within ~/suricata/ run:&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;podman run &lt;span class=&quot;nt&quot;&gt;--rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-itd&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;host &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+     &lt;span class=&quot;nt&quot;&gt;--cap-add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;net_admin &lt;span class=&quot;nt&quot;&gt;--cap-add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;sys_nice &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	 &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;suricata &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+     &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;/logs:/var/log/suricata &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+     &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;/etc:/etc/suricata &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+     &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;/rules:/var/lib/suricata &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+         jasonish/suricata:latest &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Verify:&lt;/strong&gt;
+Check the: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/suricata/logs/suricata.log&lt;/code&gt; file to verify everything is starting correctly.&lt;/p&gt;
+
+&lt;p&gt;Regarding this particular setup I’m looking for:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;11/6/2021 -- 17:37:00 - &amp;lt;Info&amp;gt; - Enabling fail-open on queue
+11/6/2021 -- 17:37:00 - &amp;lt;Info&amp;gt; - NFQ running in standard ACCEPT/DROP mode
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;9-add-the-required-iptables-rule-to-forward-traffic-to-suricata&quot;&gt;9. Add the required &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;iptables&lt;/code&gt; rule to forward traffic to suricata:&lt;/h4&gt;
+&lt;p&gt;Because IPS rules/signatures are more computationally expensive than firewall rules(tuple matching/connection tracking). I follow the basic principal that firewall rules should be processed before IPS rules/signatures. While my SN-3000 has way more horsepower than I need for my home traffic and can process all my traffic through IPS I still follow the principal. For that reason I only send packets to Suricata only &lt;em&gt;after&lt;/em&gt; they been filtered by iptables. This is why I insert this rule as #4 in the FORWARD chain. On the flip side I could insert a similar iptables rule first and send all traffic to suricata before it hits the iptables rules defined by my VyOS configuration.&lt;/p&gt;
+
+&lt;p&gt;To understand this a little please read through the suricata &lt;a href=&quot;https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html#nfq&quot;&gt;doumentation on NFQ&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Since this is purely a &lt;em&gt;proof of concept&lt;/em&gt; and not optimized for performance, I’m leveraging a single queue.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; FORWARD 4 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; NFQUEUE &lt;span class=&quot;nt&quot;&gt;--queue-bypass&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--queue-num&lt;/span&gt; 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;If you need to remove:&lt;/strong&gt; Assuming your rule is still number 4 in the FORWARD chain (verify with: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo iptables -L FORWARD -n --line-numbers&lt;/code&gt;)&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;iptables &lt;span class=&quot;nt&quot;&gt;-D&lt;/span&gt; FORWARD 4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;10-enable-rule-sources-and-restart-suricata&quot;&gt;10. Enable rule sources and restart suricata:&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo podman exec -it --user suricata suricata suricata-update
+sudo podman exec -it --user suricata suricata suricata-update list-sources
+sudo podman exec -it --user suricata suricata suricata-update list-enabled-sources
+sudo podman exec -it --user suricata suricata suricata-update enable-source et/open
+sudo podman exec -it --user suricata suricata suricata-update enable-source oisf/trafficid
+sudo podman exec -it --user suricata suricata suricata-update -f
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;11-check-your-logs&quot;&gt;11. Check your logs&lt;/h4&gt;
+&lt;p&gt;Check the logs directory and verify your files are growing. Verify their contents. Enjoy. Happy Hacking!&lt;/p&gt;
+
+&lt;h2 id=&quot;circling-back&quot;&gt;Circling Back&lt;/h2&gt;
+&lt;p&gt;The inspiration of this proof-of-concept was derrived from the &lt;a href=&quot;https://blog.vyos.io/vyos-project-may-2021-update&quot;&gt;VyOS blog&lt;/a&gt;. In that blog, containers are instantiated using the native VyOS CLI and configuration style. The process I documented above doesn’t leverage the VyOS CLI or configuration style because I’m not sure how to leverage the CLI’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;container&lt;/code&gt; statements and pass it some of the necessary &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--cap-add&lt;/code&gt; options. I don’t foresee any issues running this via native linux versus the VyOS configuration style. If we want suricata to start post boot we can add it to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/config/scripts/vyos-postconfig-bootup.script&lt;/code&gt;. I’m fine with manually starting it for now.&lt;/p&gt;
+
+&lt;h2 id=&quot;fail-open-by-design-my-preference&quot;&gt;Fail open by design (my preference)&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; This is my preference only! By tweaking some of the configuration this setup can be changed to fail-closed if you prefer. Please consult your organizations policy on fail-open network equipment.&lt;/p&gt;
+
+&lt;p&gt;Because this appliance is currently my internet gateway and I have an active household (school &amp;amp; work) I can’t let my &lt;em&gt;mucking around&lt;/em&gt; with suricata affect the egress or ingress traffic. For my home-usecase having a blindspot from suricata is of much less importance than having 99.999% uptime.&lt;/p&gt;
+
+&lt;p&gt;There are 2 configurations that drive this “&lt;em&gt;fail-open&lt;/em&gt;” design:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--queue-bypass&lt;/code&gt; in our iptables rule&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fail-open: yes&lt;/code&gt; in our “nfq:” section of the suricata.yaml file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--queue-bypass&lt;/code&gt;&lt;/strong&gt; is great because it allows VyOS to forward packets and filter them through the iptables/firewall rules that exist while, suricata is doing things like reloading a rules set. What this actually does is keeps the packets in the kernel and filtering them through iptables if a userspace application isn’t available to receive them from the specified queue.&lt;/p&gt;
+
+&lt;p&gt;Reference: &lt;a href=&quot;https://ipset.netfilter.org/iptables-extensions.man.html&quot;&gt;https://ipset.netfilter.org/iptables-extensions.man.html&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;By default, if no userspace program is listening on an NFQUEUE, then all packets that are to be queued are dropped. When this option is used, the NFQUEUE rule behaves like ACCEPT instead, and the packet will move on to the next table.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For me this is perfect because of where in the FORWARD chain I put my NFQUEUE rule. I’m processing all my drop and reject iptables rules before the NFQUEUE rule is evaluated. If suricata isn’t available, then the packet is permitted. This doesn’t permit any unecessary packets that would otherwise be dropped because the following rule is an “ACCEPT all” rule. If I never bothered with suricata or if I don’t have suricata running, the packet would’ve passed anyway by ACL design.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fail-open: yes&lt;/code&gt;&lt;/strong&gt; is an available option baked in to suricata which says: ‘if suricata can’t keep up with the packets in the queue (when the queue is full), mark the incoming packets as ACCEPT. For this proof of concept this is acceptable until a baseline of performance can be measured and predicted.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-to-do-with-the-logs-and-events&quot;&gt;What to do with the logs and events?&lt;/h2&gt;
+&lt;p&gt;If your hardware is powerful enough (and my SN-3000 is) you can host any number of databases, dashboards and search interfaces. Examples are: Splunk, Elasticsearch with Kibana, Graylog or something custom.
+If your hardware is not powerful enough to run other containers in addition to suricata I would recommend shipping them off the box with the recommended shipper for your database platform. Examples could be: Logstash or some custom scripting.&lt;/p&gt;
+
+&lt;h2 id=&quot;more-to-come&quot;&gt;More to come&lt;/h2&gt;
+&lt;p&gt;While this is the end of &lt;em&gt;this&lt;/em&gt; blog post it isn’t the end of my on-going project. I still need &lt;strong&gt;performance testing&lt;/strong&gt;, &lt;strong&gt;automation tooling&lt;/strong&gt; and &lt;strong&gt;operational playbooks&lt;/strong&gt;.&lt;/p&gt;
+&lt;ul class=&quot;task-list&quot;&gt;
+  &lt;li&gt;&lt;strong&gt;Proof of Concept:&lt;/strong&gt;&lt;br /&gt;
+    &lt;ul class=&quot;task-list&quot;&gt;
+      &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; checked=&quot;checked&quot; /&gt;VyOS &amp;amp; Suricata&lt;/li&gt;
+      &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;VyOS &amp;amp; Zeek&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Performance Testing:&lt;/strong&gt;&lt;br /&gt;
+    &lt;ul class=&quot;task-list&quot;&gt;
+      &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;VyOS &amp;amp; Suricata on SN-3000 Hardware&lt;/li&gt;
+      &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;VyOS &amp;amp; Zeek on SN-3000 Hardware&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;Automation Tooling&lt;/li&gt;
+  &lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; class=&quot;task-list-item-checkbox&quot; disabled=&quot;disabled&quot; /&gt;Operational Playbooks&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;what-other-containers-should-i-run-on-the-sn-3000-using-vyos-as-a-platform&quot;&gt;What other containers should I run on the SN-3000 using VyOS as a Platform?&lt;/h3&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://blog.vyos.io/vyos-project-may-2021-update&quot;&gt;https://blog.vyos.io/vyos-project-may-2021-update&lt;/a&gt; (VyOS blog for demoing running containers via CLI)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html#nfq&quot;&gt;https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html#nfq&lt;/a&gt; (NFQ operation as explained by the Suricata Documentation)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jasonish/docker-suricata&quot;&gt;https://github.com/jasonish/docker-suricata&lt;/a&gt; (for a pre-packaged Suricata container)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.mirantis.com/mcp/q4-18/mcp-security-best-practices/use-cases/idps-vnf/ips-mode/nfq.html&quot;&gt;https://docs.mirantis.com/mcp/q4-18/mcp-security-best-practices/use-cases/idps-vnf/ips-mode/nfq.html&lt;/a&gt; (for help with understanding NFQ settings)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://home.regit.org/netfilter-en/using-nfqueue-and-libnetfilter_queue/&quot;&gt;https://home.regit.org/netfilter-en/using-nfqueue-and-libnetfilter_queue/&lt;/a&gt; (for help understanding NFQUEUE operation)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://suricata.readthedocs.io/en/suricata-6.0.2/setting-up-ipsinline-for-linux.html&quot;&gt;https://suricata.readthedocs.io/en/suricata-6.0.2/setting-up-ipsinline-for-linux.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="suricata" /><category term="vyos" /><category term="ips" /><category term="intrusion prevention" /><summary type="html">In this post I’m going to walk through building a best-in-class, in-line, fail-open, IPS using a Suricata container running on a VyOS router.</summary></entry><entry><title type="html">SANS: FOR572 &amp;amp; Passing the GNFA!!!</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/sans-for572" rel="alternate" type="text/html" title="SANS: FOR572 &amp;amp; Passing the GNFA!!!" /><published>2021-04-19T00:00:00-05:00</published><updated>2021-04-19T00:00:00-05:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/sans-for572</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/sans-for572">&lt;h1 id=&quot;giac-network-forensic-analyst-nfa&quot;&gt;GIAC: Network Forensic Analyst (NFA)&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;tl;dr&lt;/strong&gt; This is not a humble brag but if you have good experience and are a professional in at least 1 or more related fields, it might not be too difficult.&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/posts/2021-04-19-sans-for572/score.png&quot; /&gt;
+&lt;/p&gt;
+&lt;p&gt;On Monday (March 29, 2021) I passed my &lt;a href=&quot;https://www.giac.org/certification/network-forensic-analyst-gnfa&quot;&gt;GIAC: Network Forensic Analyst certification&lt;/a&gt; exam with a 92%. For study resources I used the &lt;a href=&quot;https://www.sans.org/cyber-security-courses/advanced-network-forensics-threat-hunting-incident-response/&quot;&gt;SANS: FOR572&lt;/a&gt; online video series, slides and books. I didn’t dedicate a ton of time into studying. Infact this probably took me nearly 100 days from the time I purchased the exam attempt and actually taking the exam. Within the 100 days were weeks when I didn’t crack a book or start a video.&lt;/p&gt;
+
+&lt;h3 id=&quot;sans-for572&quot;&gt;SANS FOR572&lt;/h3&gt;
+&lt;p&gt;In the SANS FOR572 series &lt;a href=&quot;https://www.sans.org/profiles/philip-hagen/&quot;&gt;Phil Hagen&lt;/a&gt;(&lt;a href=&quot;https://twitter.com/PhilHagen&quot;&gt;@PhilHagen&lt;/a&gt;) does a really great job of bringing you up from Zero-to-Hero throughout the course. In my opinion you &lt;em&gt;definitely&lt;/em&gt; should have some basic experience in networking, security concepts like boundary defense, and understanding how things look on the wire and how they &lt;strong&gt;should&lt;/strong&gt; look on the wire. If you only have a couple years of &lt;strong&gt;good experience&lt;/strong&gt; in the field, spanning multiple domains, you should have no problem keeping up with the material. If you have less experience, it doesn’t mean you &lt;strong&gt;can’t&lt;/strong&gt; pass the exam but, it may be more difficult. Phil speaks clearly and delivers the material very well, mixed with tales of personal experiences.&lt;/p&gt;
+
+&lt;p&gt;While I haven’t been doing incident response or digital forensics at all as part of my day job, I regularly participate in CTF’s chasing flags through an environment or hunting for flags through PCAPs. Most of the tools used throughout the course material I have running in production environments or have running here at my home for network visibility and “research”. I spent most of my career around traditional networking and network security products like firewalls, IPSs, Proxies and more. I understand multi-vendor and multi-capability security stacks well. So, when I saw the tools and concepts Phil Hagen was presenting in the material it felt very comfortable.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-exam&quot;&gt;The Exam&lt;/h3&gt;
+&lt;p&gt;I come from a Cisco testing background having gone from CCNA to CCIE, I was happy to NOT see what are know in the industry as “Cisco Style Questions” where there are multiple correct answers and you have to pick the &lt;em&gt;most correct&lt;/em&gt; answer. Instead, the GIAC: NFA exam was clear and there was a single answer for each question. This alleviates a lot of frustration that can sometimes occur through certification exams. I finished the exam with lots of time to spare.&lt;/p&gt;
+
+&lt;h4 id=&quot;testing-outline&quot;&gt;Testing outline:&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;50 questions&lt;/li&gt;
+  &lt;li&gt;2 hours&lt;/li&gt;
+  &lt;li&gt;Open Book !!!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This was the first exam I’ve ever taken that was an open book test. It was weired and frankly I forgot to reference them throughout the test. There were a few questions where I paused as I was looking over the multiple choice answers and remembered: “Oh right, I can look this up!”, I would thumb through the book to the relevant section and skim and page or two until I could verify my intended answer. Without the books I still would’ve passed but not gotten as high of a score.&lt;/p&gt;
+
+&lt;h3 id=&quot;index-method&quot;&gt;Index Method&lt;/h3&gt;
+&lt;p&gt;I did not use the index method. I read as much as I could about this and watched a few ‘how-to’ videos but I just didn’t understand it. I started a spreadsheet but got about 25-rows done and gave up. It’s not for me. I see the value in it so I’m happy it works for many others but it’s not for me.&lt;/p&gt;
+
+&lt;h3 id=&quot;practice-exams&quot;&gt;Practice Exams&lt;/h3&gt;
+&lt;p&gt;I purchased 2 practice exams with my certification attempt. When I was about halfway through the material I took one, just to see if I was ready because frankly I was getting tired of studying and just wanted to get it out of the way. I scored well but ultimately decided to push through all the material before taking my certification attempt. The night before my certification attempt I took my 2nd practice exam and I scored even better. At that point I felt confident I would at least pass the exam, regardless of score. During the practice exams I didn’t use the books very often, 2 or 3 times maybe. I did feel like the practice exams were a good representation of the certification exam. I don’t believe they are from the same question pool, but they are similar so read the questions carefully and look at the diagrams carefully.&lt;/p&gt;
+
+&lt;h3 id=&quot;why&quot;&gt;Why?&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;If you don’t do DFIR why take this exam?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I’m not sure why I pursued this as opposed to any other certifications. Personally, I always wanted to be the “anti-hacker”. The guy who could use a bunch of crazy commands CLI filtering to find the needle in the haystack. There’s something about the ‘hunt’ that I love. Also, “Network Forensic Analyst” sounds pretty cool! Ultimately, because I don’t do this everyday for a living, I just wanted a way to learn more, and by pursuing a certification with a proven curriculum of study material seemed the best way to learn.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-did-i-learn&quot;&gt;What did I learn?&lt;/h3&gt;
+&lt;p&gt;I learned a bunch of things. There were some tools that I was unaware of such as: &lt;a href=&quot;https://tools.netsa.cert.org/silk/&quot;&gt;silk&lt;/a&gt;, &lt;a href=&quot;https://github.com/phaag/nfdump&quot;&gt;nfdump&lt;/a&gt;, and the value of proxy logs. Also, through demonstration and exercises I learned some additional filtering and flags for various CLI tools that I needed more practice on.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-hug-of-thunder&quot;&gt;The Hug of Thunder&lt;/h3&gt;
+&lt;p&gt;When I started this journey I put a question on on twitter to see who (if anyone) is pursuing a SANS certification other than myself. I received only a few replies but one very important was from &lt;a href=&quot;https://twitter.com/HugOfThunder&quot;&gt;Andre&lt;/a&gt;. He mentioned he was just starting &lt;a href=&quot;https://www.sans.org/cyber-security-courses/intrusion-detection-in-depth/&quot;&gt;SEC503&lt;/a&gt;. We became daily DM buddies, checking in on each others progress and what we’ve learned. If it wasn’t for this encouragement I might have let this one slip. For the record SEC503 and FOR572 overlap a little bit so we had some common ground between us. I wish him the best on his exam and because of all the great things I’ve heard and seen from the course material, I look forward to completing the SEC503 exam this year too!&lt;/p&gt;
+
+&lt;h3 id=&quot;can-you-pass-the-cert-without-the-training&quot;&gt;Can you pass the cert without the training?&lt;/h3&gt;
+&lt;p&gt;I’m not sure I can weigh in on this. Everyone is different. I even asked this question to Phil Hagan via a Slack we have in common. I think no matter what certification you are going for you should always take the tailored training. I know, in the case of SANS, it’s expensive, but so is failing the exam. It’s a gamble. I say &lt;strong&gt;TAKE THE TRAINING&lt;/strong&gt;, you’ll learn something.&lt;/p&gt;
+
+&lt;h3 id=&quot;giac-advisory-board&quot;&gt;GIAC Advisory Board&lt;/h3&gt;
+&lt;p&gt;Because I scored above a 90% I got an invite to the GIAC Advisory Board. It’s a mailing list with threads related to current events, certifications, and general IT and security focused queries.&lt;/p&gt;
+
+&lt;h4 id=&quot;on-to-the-next-one&quot;&gt;&lt;em&gt;…on to the next one!&lt;/em&gt;&lt;/h4&gt;</content><author><name></name></author><category term="sans" /><category term="giac" /><category term="certifications" /><category term="network forensics" /><summary type="html">GIAC: Network Forensic Analyst (NFA) tl;dr This is not a humble brag but if you have good experience and are a professional in at least 1 or more related fields, it might not be too difficult. On Monday (March 29, 2021) I passed my GIAC: Network Forensic Analyst certification exam with a 92%. For study resources I used the SANS: FOR572 online video series, slides and books. I didn’t dedicate a ton of time into studying. Infact this probably took me nearly 100 days from the time I purchased the exam attempt and actually taking the exam. Within the 100 days were weeks when I didn’t crack a book or start a video.</summary></entry><entry><title type="html">Modifying PCAPng File Structure using a Raw Hex Editor</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/pcapng-hex" rel="alternate" type="text/html" title="Modifying PCAPng File Structure using a Raw Hex Editor" /><published>2021-04-14T00:00:00-05:00</published><updated>2021-04-14T00:00:00-05:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/pcapng-hex</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/pcapng-hex">&lt;dl&gt;
+  &lt;dt&gt;&lt;strong&gt;tl;dr&lt;/strong&gt;&lt;/dt&gt;
+  &lt;dd&gt;By manually changing the Linktype using a hex editor in the Interface Description Block (IDB) of the PCAPng file will convince the packet analysis software that only 1 type of interfaces were available at the time of capture.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;p&gt;&lt;strong&gt;WARNING:&lt;/strong&gt; Throughout this post I reference “PCAP” and “PCAPng” interchangeably. I also perform operations on files who have the extension *.pcap while their file structure is actually *.pcapng . Everything in this post whether *.pcap or *.pcapng should be *.pcapng. Thank you.&lt;/p&gt;
+
+&lt;p&gt;In one of my recent blog posts I discussed how some packet analysis tools have trouble processing a PCAPng file containing more than 1 interface type. Specifically I had a PCAPng file containing:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;LINKTYPE_ETHERNET (1)&lt;/li&gt;
+  &lt;li&gt;LINKTYPE_LINUX_SLL (113)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;See that post &lt;a href=&quot;https://showipintbri.github.io/blog/sll-tracewrangler&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;At the bottom of that post I left with an indication that this could be done manually but I wasn’t quite sure how. This unanswered question has bothered me. I needed to know “Why?” and “How?”. This led to a path I never thought I’d cross: Manually editing raw hex to manipulate files.&lt;/p&gt;
+
+&lt;p&gt;My idea at the time was if we split the packets from the PCAPng file into 2 separate files each containing traffic from only 1 interface type, the packet analysis tools should have no problem processing them individually.&lt;/p&gt;
+
+&lt;p&gt;Using &lt;strong&gt;tshark&lt;/strong&gt; I split the protocols into 2 files:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tshark -r &amp;lt;input_file.pcapng&amp;gt; -w eth.pcapng -Y &quot;eth&quot;
+tshark -r &amp;lt;input_file.pcapng&amp;gt; -w sll.pcapng -Y &quot;sll&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The above tshark commands will create 2 PCAPng files each containing only like-traffic using the display filter. With wireshark you can verify all the packets are alike within each file. Each tool tested (Zeek, Suricata, Brim &amp;amp; tcpdump) still gives the same error processing these new PCAPs as they did when processing the single PCAP containing both Layer-2 protocols. (see this &lt;a href=&quot;https://showipintbri.github.io/blog/sll-tracewrangler&quot;&gt;blog post&lt;/a&gt;)&lt;/p&gt;
+
+&lt;h1 id=&quot;hypothesis&quot;&gt;Hypothesis&lt;/h1&gt;
+&lt;p&gt;I’m thinking there are still artifacts in the new PCAPng files referencing the additional interfaces from the original PCAPng file.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;…but where?&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;a-clue&quot;&gt;A Clue&lt;/h2&gt;
+&lt;p&gt;When you open the new PCAPng files (eth.pcapng &amp;amp; sll.pcapng), even though they each contain only 1 type of Layer-2 header, in the &lt;strong&gt;Capture File Properties&lt;/strong&gt; you’ll see 2 types of interfaces listed under the “Link Type” column header.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/cap-prop-interfaces-before.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ah-ha! This data must still be contained in the file …&lt;em&gt;but where?&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;understanding-the-pcapng-file-structure&quot;&gt;Understanding the PCAPng File Structure&lt;/h2&gt;
+&lt;p&gt;To understand what’s going on you’ll need to understand the PCAPng file structure.&lt;/p&gt;
+
+&lt;p&gt;To summarize our issue with this specific PCAPng file and condense the information I will &lt;strong&gt;NOT&lt;/strong&gt; step through every header, block field and options, instead I’ll give a high level description. Everything you’ll need to know about the PCAPng file structure is in the &lt;a href=&quot;https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html&quot;&gt;documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Below is an abstract image representing the compisition of our PCAPng file, reading from left–&amp;gt;right. The file is broken up into different sections called blocks. Below is a summary of the file blocks we’re interested in.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/high-level.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;block-types&quot;&gt;Block Types&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Section Header Block (SHB):&lt;/strong&gt; Every PCAPng file must have at least 1 of these blocks but can have more. This does &lt;strong&gt;NOT&lt;/strong&gt; contain packet data. It more like meta data around the file itself like the OS and version of the system the PCAPng file was created.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Interface Description Block (IDB):&lt;/strong&gt; This block contains the Linktype values. This is where an interface is identified as LINKTYPE_ETHERNET (1) or LINKTYPE_LINUX_SLL (113). The order of these blocks determines the interface ID value. The first Interface Description Block becomes interface ID: 0. All subsequent Interface Description Blocks not separated by SHB’s are incremented by 1.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Enhanced Packet Block (EPB):&lt;/strong&gt; This block contains the actual packet data from Layer-2 to Layer-7 and also indicates which interface ID this packet was captured from.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Our PCAPng file closely resembles the “complex example” &lt;a href=&quot;https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html#fssample-full&quot;&gt;figure 6&lt;/a&gt; from the documentation.&lt;/p&gt;
+
+&lt;p&gt;Our PCAPng file has 2 IDB blocks and inside each IDB is a different Link Type.&lt;/p&gt;
+
+&lt;p&gt;This is the source of our problem.&lt;/p&gt;
+
+&lt;h3 id=&quot;pcapng-hex-dump&quot;&gt;PCAPng Hex Dump&lt;/h3&gt;
+&lt;p&gt;Looking at the PCAPng file using a hex editor, I’ve outlined the sections using the same colors as the image in the previous section. I’ve also highlighted some values using bright yellow and green. The values highlighted in yellow represent the Link type and the values highlighted in green are the associated Interface ID for each EPB.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/hex-marked-up.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The above hex dump should be read Little-Endian. &lt;strong&gt;Not all captures will be Little-Endian&lt;/strong&gt;, that is left up to your local operating system.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Block Type&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Highlighted Color&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;HEX&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;Decimal&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Meaning&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Notes&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Interface ID&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;IDP&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yellow&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0x71&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;113&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;LINKTYPE_LINUX_SLL&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Linux Cooked Capture&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;IDP&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yellow&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0x01&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;LINKTYPE_ETHERNET&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Ethernet Header&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;EPB&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Green&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0x01&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Use interface ID 1&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;none&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;n/a&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;EPB&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Green&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0x01&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Use interface ID 1&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;none&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;n/a&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;EPB&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Green&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0x01&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Use interface ID 1&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;none&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;n/a&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Using the below image, something worth noting is, some of the info is explicitly contianed in the data (‘&lt;em&gt;included data&lt;/em&gt;’) and some of the info is &lt;em&gt;derived&lt;/em&gt; meaning it’s not actually reflected in the bytes or bits but is derived based on it’s placement in the file structure. The first IDB block becomes ‘interface id: 0’, the second IDB becomes ‘interface id: 1’, etc …:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/high-level-marked-up.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In our case, using the example eth.pcapng file:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;All&lt;/strong&gt; the packets reference interface ID: 1, which is the “LINKTYPE_ETHERNET” as their source interface.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;None&lt;/strong&gt; of the packets reference interface ID: 0, which is the “LINKTYPE_LINUX_SLL”.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We should be able to change the Link type in the first listed IDB from 0x71 –&amp;gt; 0x01 without casing an issue.&lt;/p&gt;
+
+&lt;p&gt;This will indicate to applications reading the PCAPng file that ‘&lt;em&gt;this file was produced on a system that was capturing on 2 interfaces and both were LINKTYPE_ETHERNET&lt;/em&gt;’.&lt;/p&gt;
+
+&lt;h1 id=&quot;my-process&quot;&gt;My Process&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;Using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tshark&lt;/code&gt; split out the Layer-2 protocols into separate PCAPng files: &lt;strong&gt;&lt;em&gt;eth-before.pcap&lt;/em&gt;&lt;/strong&gt; &amp;amp; &lt;strong&gt;&lt;em&gt;sll-before.pcap&lt;/em&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Manually edit the Interface Description Blocks (IDB) using a hex editor, making both LINKTYPE fields the same, either 0x71 or 0x01, and naming the files &lt;strong&gt;&lt;em&gt;eth-after.pcap&lt;/em&gt;&lt;/strong&gt; &amp;amp; &lt;strong&gt;&lt;em&gt;sll-after.pcap&lt;/em&gt;&lt;/strong&gt;, respectively.&lt;/li&gt;
+  &lt;li&gt;Testing each pcap with: tcpdump, Suricata, Zeek &amp;amp; Brim&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;definitions&quot;&gt;Definitions&lt;/h2&gt;
+&lt;dl&gt;
+  &lt;dt&gt;&lt;strong&gt;Before&lt;/strong&gt;&lt;/dt&gt;
+  &lt;dd&gt;Each PCAP file contains only (1) Layer-2 protocol in the EPBs, but the SHB contains (2) IDBs with &lt;strong&gt;&lt;em&gt;different&lt;/em&gt;&lt;/strong&gt; LINKTYPEs.&lt;/dd&gt;
+  &lt;dt&gt;&lt;strong&gt;After&lt;/strong&gt;&lt;/dt&gt;
+  &lt;dd&gt;Each PCAP file contains only (1) Layer-2 protocol in the EPBs and the SHB contains (2) IDBs which are the &lt;strong&gt;&lt;em&gt;same&lt;/em&gt;&lt;/strong&gt; LINKTYPE.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;h1 id=&quot;results&quot;&gt;Results&lt;/h1&gt;
+&lt;p&gt;After changing the values you can see from this screenshot, Wireshark now thinks both interfaces are the same.&lt;/p&gt;
+
+&lt;h4 id=&quot;before&quot;&gt;Before&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/cap-prop-interfaces-before.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;after&quot;&gt;After&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/cap-prop-interfaces-after.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;compatibility-matrix&quot;&gt;Compatibility Matrix&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Tool Name&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Original Combined PCAP File&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;eth-before.pcapng&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;sll-before.pcapng&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;eth-after.pcapng&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;sll-after.pcapng&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Wireshark&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;tshark&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;tcpdump&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes:+1:&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes:+1:&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;zeek&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes:+1:&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes:+1:&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;suricata&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes:+1:&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes:+1:&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Brim&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;No&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes :+1:&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Yes:+1:&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;example-processing-the-before--after-pcaps&quot;&gt;Example Processing the Before &amp;amp; After PCAPs&lt;/h3&gt;
+&lt;h4 id=&quot;zeek-eth-beforepcap--eth-afterpcap&quot;&gt;Zeek: eth-before.pcap &amp;amp; eth-after.pcap&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/zeek-eth-error-no-error.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;zeek-sll-beforepcap--sll-afterpcap&quot;&gt;Zeek: sll-before.pcap &amp;amp; sll-after.pcap&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/zeek-sll-error-no-error.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;tcpdump-eth-beforepcap--eth-afterpcap&quot;&gt;tcpdump: eth-before.pcap &amp;amp; eth-after.pcap&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/tcp-dump-error-no-error.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;wireshark-side-by-side&quot;&gt;Wireshark Side-By-Side&lt;/h2&gt;
+&lt;p&gt;This shows the meta-data around duration and file size the same, with the Hash values changing because of the 1 byte that was modified.
+&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/wireshark-side-by-side.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;packet-view-for-reference&quot;&gt;Packet View for Reference&lt;/h3&gt;
+&lt;p&gt;If you wanted to correlate the Hex dump image from earlier in this post against how it’s shown in Wireshark, you would be looking at these 3 packets:
+&lt;img src=&quot;/assets/images/posts/2021-04-14-pcapng-hex/wireshark-3-packets.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;dl&gt;
+      &lt;dt&gt;&lt;strong&gt;Why didn’t you just delete the unused/unreferenced Interface Description Block (IDB)?&lt;/strong&gt;&lt;/dt&gt;
+      &lt;dd&gt;Because of how the interfaces are ID’d, if all the packets we referencing ID #1 (the second IDB), I would have to re-write all the interface ID references in all the EPBs and point them to interface ID #0. I really just wanted to make as few changes as possible. Leaving an unused ‘ghost IDB’ didn’t seem to hurt anything as long as the LINKTYPE was the same.&lt;/dd&gt;
+    &lt;/dl&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;dl&gt;
+      &lt;dt&gt;&lt;strong&gt;What hex editor did you use?&lt;/strong&gt;&lt;/dt&gt;
+      &lt;dd&gt;I used the “hex editor” plugin for Notepad++. Since I don’t do this often, I don’t have a favorite tool.&lt;/dd&gt;
+    &lt;/dl&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;dl&gt;
+      &lt;dt&gt;&lt;strong&gt;How was the original PCAP created containing multiple LINKTYPE’s?&lt;/strong&gt;&lt;/dt&gt;
+      &lt;dd&gt;I’m not sure how the PCAP’s author originally created file but if you use linux and capture packets on a system that has multiple interfaces and use: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tcpdump -i any&lt;/code&gt; this should generate a PCAP using Linux Cooked Capture (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sll&lt;/code&gt;) and then again but this time specifying a single interface: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tcpdump -i eth0&lt;/code&gt; and merge those files together, you’ll get a mixed IDB in the final PCAP file. &lt;strong&gt;NOTE:&lt;/strong&gt; You may have to convert one or both to PCAPng file format first before merging.&lt;/dd&gt;
+    &lt;/dl&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;reference-links&quot;&gt;Reference Links&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html&quot;&gt;https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><category term="pcap" /><category term="hex" /><category term="zeek" /><category term="suricata" /><category term="brim" /><summary type="html">tl;dr By manually changing the Linktype using a hex editor in the Interface Description Block (IDB) of the PCAPng file will convince the packet analysis software that only 1 type of interfaces were available at the time of capture.</summary></entry><entry><title type="html">Working With Linux Cooked Capture Headers Using TraceWrangler</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/sll-tracewrangler" rel="alternate" type="text/html" title="Working With Linux Cooked Capture Headers Using TraceWrangler" /><published>2021-04-12T00:00:00-05:00</published><updated>2021-04-12T00:00:00-05:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/sll-tracewrangler</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/sll-tracewrangler">&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;Sometimes when loading a PCAP into various tools you get a cryptic error: &lt;strong&gt;an interface has a type 1 different from the type of the first interface&lt;/strong&gt;. I had one PCAP that would generate various errors in different tools.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-evidence&quot;&gt;The Evidence&lt;/h3&gt;
+&lt;h4 id=&quot;brim&quot;&gt;Brim:&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2021-04-12-sll-tracewrangler/brim-error.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;See this &lt;a href=&quot;https://github.com/brimdata/brimcap/issues/19&quot;&gt;Github issue&lt;/a&gt; I raised.&lt;/p&gt;
+&lt;p /&gt;
+
+&lt;h4 id=&quot;zeek&quot;&gt;Zeek:&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@server:~/ctf$ /opt/zeek/bin/zeek -C -r ctf-dump-v2.pcap
+fatal error: failed to read a packet from ctf-dump-v2.pcap: an interface has a type 1 different from the type of the first interface
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p /&gt;
+
+&lt;h4 id=&quot;suricata&quot;&gt;Suricata:&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@server:~$ suricata -r ctf-dump-v2.pcap -c /etc/suricata/suricata-debian.yaml
+10/4/2021 -- 23:10:01 - &amp;lt;Error&amp;gt; - [ERRCODE: SC_ERR_PCAP_DISPATCH(20)] - error code -1 an interface has a type 1 different from the type of the first interface
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p /&gt;
+
+&lt;h4 id=&quot;tcpdump&quot;&gt;tcpdump:&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@server:~$ tcpdump -r ctf-dump-v2.pcap
+reading from file ctf-dump-v2.pcap, link-type LINUX_SLL (Linux cooked)
+tcpdump: pcap_loop: an interface has a type 1 different from the type of the first interface
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p /&gt;
+
+&lt;h4 id=&quot;wireshark--tshark&quot;&gt;Wireshark &amp;amp; tshark:&lt;/h4&gt;
+&lt;p&gt;Had no problems reading the PCAP.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-solution&quot;&gt;The Solution&lt;/h2&gt;
+&lt;p&gt;To fix this issue we need to iterate through the PCAP re-writing the SLL frame headers with standard ethernet headers. Tracewrangler makes quick work of this. The more correct solution is for the application developers to impliment compatibility with this interface type or a mix of interface types in the same PCAP file.&lt;/p&gt;
+
+&lt;h3 id=&quot;tracewrangler&quot;&gt;Tracewrangler&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.tracewrangler.com/&quot;&gt;Tracewrangler&lt;/a&gt; is an awesome tool for manipulating PCAP files. It is written by Jasper Bongertz(&lt;a href=&quot;https://twitter.com/PacketJay&quot;&gt;@packetjay&lt;/a&gt;) and has gotten me out of a few jambs. This tool performs an number of common PCAP file manipulation tasks quickly. For example:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Add or Remove a VLAN ID in the header&lt;/li&gt;
+  &lt;li&gt;Mask/re-write the src or dst MAC addresses&lt;/li&gt;
+  &lt;li&gt;Mask/re-write the src or dst IP addresses&lt;/li&gt;
+  &lt;li&gt;Slice off the payloads leaving only the headers&lt;/li&gt;
+  &lt;li&gt;^^^ Just to name a few, and many many more!!!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;linux-cooked-capture-mode&quot;&gt;Linux Cooked Capture Mode&lt;/h3&gt;
+&lt;p&gt;This is “Linux Cooked Capture Mode” and you can find frames using this header type in your PCAP’s using the Wireshark display filter: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sll&lt;/code&gt;. This header is 16-bytes and as you can see very different from a standard Ethernet header. Some tools actually don’t have a problem processing PCAP’s which contain only SLL, but most will choke when they contain a mix of various Layer-2 headers(in my case a mix of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sll &amp;amp;&amp;amp; eth&lt;/code&gt;). Frames using Ethernet headers are 14-bytes by default and can be isolated using the Wireshark display filter: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eth&lt;/code&gt;.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;/assets/images/posts/2021-04-12-sll-tracewrangler/sll-header.png&quot; style=&quot;max-width:100%&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;/assets/images/posts/2021-04-12-sll-tracewrangler/eth-header.png&quot; style=&quot;max-width:100%&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;NOTE: Alternatively, separate your different layer-2 protocols into seprate PCAPs. Most tools will be okay with this.&lt;/p&gt;
+
+&lt;h3 id=&quot;lets-get-to-it&quot;&gt;Let’s Get To It&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Open TraceWrangler click the “Add Files” button and load the PCAP in question.&lt;br /&gt;
+&lt;img src=&quot;/assets/images/posts/2021-04-12-sll-tracewrangler/trace-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;For this particular operation use the “Edit Files” button.&lt;br /&gt;
+&lt;img src=&quot;/assets/images/posts/2021-04-12-sll-tracewrangler/trace-2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;In the navigation tree select “Edit”, Check the box for “Replace Linux Cooked Header with Ethernet” and click “Okay”.&lt;br /&gt;
+&lt;img src=&quot;/assets/images/posts/2021-04-12-sll-tracewrangler/trace-3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Back on the main TraceWrangler window click “Run” in the bottom left.&lt;br /&gt;
+&lt;img src=&quot;/assets/images/posts/2021-04-12-sll-tracewrangler/trace-4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;alternative-solution&quot;&gt;Alternative Solution&lt;/h2&gt;
+&lt;p&gt;As mentioned above the root of the problem is the mix of interface types/Layer-2 header types in the same PCAP file. If you separate out the interface types you might be able to process the PCAPs separately. I haven’t found a clean way to accomplish this via CLI yet, I’ll update this blog post if I do.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Note this doesn't solve the problem but it does seperate out the traffic. however the interfaces are both still listed in the capture properties.
+# Even though this doesn't work as expected I'm leaving here as a seed of an idea until I have something better.
+
+tshark.exe -r &quot;c:\Users\Tony\Downloads\ctf-dump-v2.pcap&quot; -w &quot;c:\Users\Tony\Downloads\sll.pcap&quot; -Y &quot;sll&quot;
+
+tshark.exe -r &quot;c:\Users\Tony\Downloads\ctf-dump-v2.pcap&quot; -w &quot;c:\Users\Tony\Downloads\eth.pcap&quot; -Y &quot;eth&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;linksreferences&quot;&gt;Links/References:&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.wireshark.org/SLL&quot;&gt;https://wiki.wireshark.org/SLL&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.tcpdump.org/linktypes.html&quot;&gt;http://www.tcpdump.org/linktypes.html&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html&quot;&gt;https://pcapng.github.io/pcapng/draft-tuexen-opsawg-pcapng.html&lt;/a&gt; (Link Type: 1 &amp;amp; 113)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://linux.die.net/man/7/pcap-linktype&quot;&gt;https://linux.die.net/man/7/pcap-linktype&lt;/a&gt; (Link Type: 1 &amp;amp; 113)&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="pcap" /><category term="tracewrangler" /><category term="tcpdump" /><summary type="html">The Problem Sometimes when loading a PCAP into various tools you get a cryptic error: an interface has a type 1 different from the type of the first interface. I had one PCAP that would generate various errors in different tools.</summary></entry><entry><title type="html">My First 2 Zeek Scripts</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/my-first-zeek-scripts" rel="alternate" type="text/html" title="My First 2 Zeek Scripts" /><published>2021-04-09T00:00:00-05:00</published><updated>2021-04-09T00:00:00-05:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/my-first-zeek-scripts</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/my-first-zeek-scripts">&lt;p&gt;&lt;strong&gt;tl;dr&lt;/strong&gt; This blog post was for documentation purposes. Nothing to see here.&lt;/p&gt;
+
+&lt;h2 id=&quot;problem-statement&quot;&gt;Problem Statement:&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I need to have Zeek log every UDP packet instead of only per UDP session/conversation&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Because of Zeek’s session tracking it will only log one connection “uid” at the start of a session and for all subsequent packets which are part of the same session or conversation.&lt;/p&gt;
+
+&lt;p&gt;For example, using the popular &lt;a href=&quot;http://tcpreplay.appneta.com/wiki/captures.html#smallflows-pcap&quot;&gt;smallFlows.pcap&lt;/a&gt; you can see there are &lt;em&gt;501&lt;/em&gt; UDP packets:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# tcpdump
+
+tcpdump -nr smallFlows.pcap udp | wc -l
+501
+
+# Wireshark Display Filter:
+udp &amp;amp;&amp;amp; !icmp
+^^^ This count is 501 packets
+
+# NOTE: You have to exclude 'icmp' because the Type-11's and Type-3's re-encapsulate the original UDP packet.
+# You can identify these packets using the filter 'udp &amp;amp;&amp;amp; icmp'(&amp;lt;-- this count is 22 packets).
+# Using just 'udp' filter will result in also counting the icmp ecapsulated udp packets (&amp;lt;-- this count is 523)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p /&gt;
+&lt;p&gt;Using Zeek on the same PCAP and filtering the logs showing only protocol UDP yields a much lower count:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;zeek -C -r smallFlows.pcap
+grep udp conn.log | wc -l
+173
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p /&gt;
+&lt;p&gt;So, where did all the other packets go? The packets are there but Zeek only creates a new log entry for every unique session. Packets that are part of the same flow or conversation are counted together. In fact if you use the below command and add up all the numbers in the 6th and 7th columns you’ll get 501:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat conn.log | /opt/zeek/bin/zeek-cut id.orig_h id.orig_p id.resp_h id.resp_p proto orig_pkts resp_pkts uid | grep udp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;NOTE: The 6th and 7th columns are the number of packets seen with the &lt;strong&gt;Orig&lt;/strong&gt;inator as the &lt;em&gt;source&lt;/em&gt; or the &lt;strong&gt;Resp&lt;/strong&gt;onder as the &lt;em&gt;source&lt;/em&gt; (on a per-packet analysis)&lt;/p&gt;
+
+&lt;h2 id=&quot;how-do-we-get-zeek-to-log-each-udp-packet-instead-of-each-session-or-conversation&quot;&gt;How do we get Zeek to log each UDP packet instead of each session or conversation?&lt;/h2&gt;
+
+&lt;p&gt;I’m glad you asked, I wrote a script for that!&lt;/p&gt;
+
+&lt;p&gt;This first script simply logs to STDOUT for every UDP request or UDP reply and logs them as individual unique connections.&lt;/p&gt;
+&lt;h4 id=&quot;script-1-udp_scriptzeek&quot;&gt;Script #1: udp_script.zeek&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;event udp_request(u: connection){
+# Choose one format to un-comment
+#	print fmt(&quot;UDP Request: %s&quot;, u$id);
+#	print fmt(&quot;%s UDP Request: %s %s --&amp;gt; %s %s&quot;, u$uid, u$id$orig_h, u$id$orig_p, u$id$resp_h, u$id$resp_p);
+	print fmt(&quot;UDP Request: %s %s --&amp;gt; %s %s&quot;, u$id$orig_h, u$id$orig_p, u$id$resp_h, u$id$resp_p);
+}
+
+event udp_reply(u: connection){
+# Choose the matching format from above to un-comment
+#	print fmt(&quot;UDP Reply  : %s&quot;, u$id);
+#	print fmt(&quot;%s UDP Reply  : %s %s &amp;lt;-- %s %s&quot;, u$uid, u$id$orig_h, u$id$orig_p, u$id$resp_h, u$id$resp_p);
+	print fmt(&quot;UDP Reply  : %s %s &amp;lt;-- %s %s&quot;, u$id$orig_h, u$id$orig_p, u$id$resp_h, u$id$resp_p);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p /&gt;
+&lt;p&gt;Lets run this script against our PCAP file:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# NOTE: I'm in the same directory as my pcap and my script file. The Zeek binary is in its default location.
+
+sudo /opt/zeek/bin/zeek -C -r smallFlows.pcap udp_script.zeek
+
+UDP Request: 192.168.3.131 57757/udp --&amp;gt; 239.255.255.250 1900/udp
+UDP Request: 192.168.3.131 57757/udp --&amp;gt; 239.255.255.250 1900/udp
+UDP Request: 192.168.3.131 57757/udp --&amp;gt; 239.255.255.250 1900/udp
+UDP Request: 192.168.3.131 57757/udp --&amp;gt; 239.255.255.250 1900/udp
+UDP Request: 192.168.3.131 57757/udp --&amp;gt; 239.255.255.250 1900/udp
+UDP Request: 192.168.3.131 57757/udp --&amp;gt; 239.255.255.250 1900/udp
+UDP Request: 192.168.3.131 68/udp --&amp;gt; 255.255.255.255 67/udp
+UDP Request: 192.168.3.131 54600/udp --&amp;gt; 224.0.0.252 5355/udp
+UDP Request: 192.168.3.131 54600/udp --&amp;gt; 224.0.0.252 5355/udp
+UDP Request: 172.16.255.1 50983/udp --&amp;gt; 71.224.25.112 33695/udp
+[ ... OMITTED FOR BREVITY ... ]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p /&gt;
+&lt;p&gt;Sweet, now lets make sure we have the same number of log lines as we do UDP packets in the PCAP:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo /opt/zeek/bin/zeek -C -r smallFlows.pcap udp_script.zeek | wc -l
+501
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p /&gt;
+&lt;p&gt;Awsome! While this is great and proof that we are generating logs the way we intended. It isn’t actaully logging anywhere and the results aren’t being picked up by other tools (Filebeat–&amp;gt;Logstash–&amp;gt;Elastic&amp;lt;–Kibana).&lt;/p&gt;
+
+&lt;h2 id=&quot;leverage-the-zeek-logging-framework&quot;&gt;Leverage the Zeek Logging Framework&lt;/h2&gt;
+&lt;p&gt;This script will generate a Zeek log file “udp_packets.log” with the columns: Timestamp, UID, Source IP, SRC Port, Destination IP, Dest Port&lt;/p&gt;
+
+&lt;h4 id=&quot;script-2-udp_logzeek&quot;&gt;Script #2: udp_log.zeek&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;module Udplog;
+
+export {
+	redef enum Log::ID += { LOG };
+
+	type Info: record {
+		ts: time	&amp;amp;log;
+		uid: string	&amp;amp;log;
+		id: conn_id	&amp;amp;log;
+	};
+}
+
+event zeek_init(){
+	Log::create_stream(Udplog::LOG, [$columns=Info, $path=&quot;udp_packets&quot;]);
+}
+
+event udp_request(u: connection){
+	local rec: Udplog::Info = [$ts=network_time(), $uid=u$uid, $id=u$id];
+	Log::write(Udplog::LOG, rec);
+}
+
+event udp_reply(u: connection){
+	local rec: Udplog::Info = [$ts=network_time(), $uid=u$uid, $id=u$id];
+	Log::write(Udplog::LOG, rec);
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p /&gt;
+&lt;p&gt;Running this against the same PCAP, Zeek will create a new log file: udp_packets.log. Zeeks standard log file format includes 8 lines of metadata pre-pended and 1 line appended.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wc -l udp_packets.log
+510
+
+# NOTE: Subtracting the 9 lines of metadata leave 501 lines of logs.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p /&gt;
+&lt;p&gt;Using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zeek-cut&lt;/code&gt; can clean-up the log for you:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat udp_packets.log | /opt/zeek/bin/zeek-cut | wc -l
+501
+
+^^^ BOOM !
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p /&gt;
+&lt;p&gt;You do not need to run both of these scripts together at the same time. The first script was a proof of concept and prints to STDOUT while the second is a more permanent script to be used during live capture and when ingesting your logs into other tools. You can also send output as JSON if needed.&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading.&lt;/p&gt;</content><author><name></name></author><category term="zeek" /><category term="scripts" /><category term="pcap" /><summary type="html">tl;dr This blog post was for documentation purposes. Nothing to see here.</summary></entry><entry><title type="html">Install EVE-NG in Google Cloud (2021 Edition)</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/eve-ng-in-gcp" rel="alternate" type="text/html" title="Install EVE-NG in Google Cloud (2021 Edition)" /><published>2021-02-28T00:00:00-06:00</published><updated>2021-02-28T00:00:00-06:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/eve-ng-in-gcp</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/eve-ng-in-gcp">&lt;p&gt;This is an update from the content I released back in 2018. Thanks to the EVE-NG development team this process can be completed in just 15 minutes. I released a video series on Network Collective covering this topic and other EVE-NG Tips and Tricks.&lt;/p&gt;
+
+&lt;h4 id=&quot;process-summary&quot;&gt;Process Summary&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;Login to Google Cloud using your existing Google account or create a new account&lt;/li&gt;
+  &lt;li&gt;Create a new project&lt;/li&gt;
+  &lt;li&gt;Create the nested virtualization Ubuntu VM image&lt;/li&gt;
+  &lt;li&gt;Create a new VM instance using the new image&lt;/li&gt;
+  &lt;li&gt;Run the installation script&lt;/li&gt;
+  &lt;li&gt;Run the setup wizard&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;center&gt;&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/sMYtz-bSZLQ&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;&lt;/center&gt;
+
+&lt;h2 id=&quot;1-log-in-to-google-cloud&quot;&gt;1. Log In To Google Cloud&lt;/h2&gt;
+&lt;p&gt;You can use your existing Google or Gmail account or create a new account for google cloud. &lt;a href=&quot;https://cloud.google.com&quot;&gt;https://cloud.google.com&lt;/a&gt;
+If this is your first time Google will give you a $300 free credit. This is more than enough to test this process and practice a bunch of labs.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-create-a-new-project&quot;&gt;2. Create A New Project&lt;/h2&gt;
+
+&lt;h2 id=&quot;3-create-the-new-vm-image&quot;&gt;3. Create The New VM Image&lt;/h2&gt;
+&lt;p&gt;Navigate to: &lt;strong&gt;Compute Engine –&amp;gt; VM instances&lt;/strong&gt; and switch to your new Project from the upper left hand drop down.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; This takes a few minutes.&lt;/p&gt;
+
+&lt;p&gt;Once the Compute Engine is ready, click on the &lt;strong&gt;“Launch Cloud Shell”&lt;/strong&gt; icon (in the upper right).&lt;/p&gt;
+
+&lt;p&gt;Make sure your Cloud Shell session is set to your newly created project. (It should have your project name in the command prompt.)&lt;/p&gt;
+
+&lt;p&gt;Enter the command: (this is 1 long command)&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gcloud compute images create nested-virt-ubuntu --source-image-project=ubuntu-os-cloud --source-image-family=ubuntu-1604-lts --licenses=&quot;https://www.google.com/compute/v1/projects/vm-options/global/licenses/enable-vmx&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; It could take a few minutes to return to an interactive prompt. Be patient.
+You are ready when the shell returns “STATUS READY”:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;user@cloudshell:~ (test-305418)$ gcloud compute images create nested-virt-ubuntu --source-image-project=ubuntu-os-cloud --source-image-family=ubuntu-1604-lts --licenses=&quot;https://www.google.com/compute/v1/projects/vm-options/global/li
+censes/enable-vmx&quot;
+Created [https://www.googleapis.com/compute/v1/projects/test-305418/global/images/nested-virt-ubuntu].
+NAME                PROJECT      FAMILY  DEPRECATED  STATUS
+nested-virt-ubuntu  test-305418                      READY
+user@cloudshell:~ (test-305418)$
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Now, close the Cloud Shell terminal.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-create-the-new-vm-instace&quot;&gt;4. Create The New VM instace&lt;/h2&gt;
+&lt;p&gt;Click on the “Create” button in the VM instances frame in the center of the screen.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Name:&lt;/strong&gt; Anything you want (cannot change)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Labels:&lt;/strong&gt; (optional)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Region:&lt;/strong&gt; Choose the region nearest you (cannot change)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Zone:&lt;/strong&gt; (cannot change)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Machine Family:&lt;/strong&gt; General Purpose&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Series:&lt;/strong&gt; Must choose “Intel Cascade Lake” or “Intel Skylake”&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Machine Type:&lt;/strong&gt; This is going to depend on what you need for labbing. You cannot change this unless you power-off your VM. Just to get started I choose “n2-standard-4”.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Confidential VM service:&lt;/strong&gt; Unchecked&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Container:&lt;/strong&gt; Unchecked&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Boot Disk:&lt;/strong&gt; Choose the image we created from the cloud shell.
+    &lt;ul&gt;
+      &lt;li&gt;It will be under &lt;strong&gt;“Custom images”&lt;/strong&gt;:&lt;/li&gt;
+      &lt;li&gt;Show images from: &lt;strong&gt;&lt;em&gt;Your new project name&lt;/em&gt;&lt;/strong&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;strong&gt;Image:&lt;/strong&gt; the image name we created earlier&lt;/li&gt;
+          &lt;li&gt;&lt;strong&gt;Boot Disk Type:&lt;/strong&gt; SSD&lt;/li&gt;
+          &lt;li&gt;&lt;strong&gt;Size:&lt;/strong&gt; This is going to be determined by you on how you intend to use the VM for labbing. To get started I select 50GB.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Identity and API access:&lt;/strong&gt; leave default&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Firewall:&lt;/strong&gt; Choose “Allow HTTP traffic”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Click &lt;strong&gt;“Create”&lt;/strong&gt; at the bottom.&lt;/p&gt;
+
+&lt;p&gt;Wait for your VM to be provisioned, this could a  minute or two.&lt;/p&gt;
+
+&lt;h2 id=&quot;5-run-the-installation-script&quot;&gt;5. Run The Installation Script&lt;/h2&gt;
+&lt;p&gt;Once your VM is provisioned it will automatically be started. Use the built-in SSH feature to connect to the VM’s console.&lt;/p&gt;
+
+&lt;p&gt;Once you’re SSH’d into the VM become root, grab the installation script, update the package manager and upgrade current packages.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo -i
+
+wget -O - http://www.eve-ng.net/repo/install-eve.sh | bash -i
+
+apt update
+
+apt upgrade
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Reboot the VM.&lt;/p&gt;
+
+&lt;h2 id=&quot;6-run-the-setup-wizard&quot;&gt;6. Run The Setup Wizard&lt;/h2&gt;
+&lt;p&gt;Connect to it again via the built in SSH.&lt;/p&gt;
+
+&lt;p&gt;You will be presented with a configuration wizard.&lt;/p&gt;
+
+&lt;h1 id=&quot;stop&quot;&gt;STOP!&lt;/h1&gt;
+
+&lt;p&gt;When you are greeted with the wizard to enter a root password, &lt;strong&gt;don’t!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Hold &lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CTRL&lt;/code&gt;&lt;/strong&gt; and press &lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C&lt;/code&gt;&lt;/strong&gt;, become root &lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo -i&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This will restart the wizard and allow you to change root’s password.&lt;/p&gt;
+
+&lt;p&gt;Follow the initial configuration wizard.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Enter Root Password:&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Enter Root Password Again:&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Hostname:&lt;/strong&gt; anything you want (I leave default)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;DNS Domain Name:&lt;/strong&gt; anything you want (I leave default)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;DHCP/Static IP:&lt;/strong&gt; Choose DHCP/Static&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;NTP:&lt;/strong&gt; (leave empty)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Proxy:&lt;/strong&gt; Choose “Direct connection”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After hitting enter, the setup wizard will kick you out.&lt;/p&gt;
+
+&lt;h2 id=&quot;7-youre-finished--whats-next&quot;&gt;7. You’re Finished / What’s Next?&lt;/h2&gt;
+&lt;p&gt;At this point the installation is finished. You should have a working EVE-NG server in Google Cloud.&lt;/p&gt;
+
+&lt;p&gt;Next, you should:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Start uploading the images you need for labbing&lt;/li&gt;
+  &lt;li&gt;Start importing your already created labs&lt;/li&gt;
+  &lt;li&gt;Start thinking securing the ingress and egress traffic of your EVE-NG lab.&lt;/li&gt;
+  &lt;li&gt;Check out my other blogs and videos for more EVE-NG: Tips &amp;amp; Tricks&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="eve-ng" /><category term="google cloud" /><summary type="html">This is an update from the content I released back in 2018. Thanks to the EVE-NG development team this process can be completed in just 15 minutes. I released a video series on Network Collective covering this topic and other EVE-NG Tips and Tricks.</summary></entry><entry><title type="html">EVE-NG: Internet Access For Your Labs</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/eve-ng-internet-access" rel="alternate" type="text/html" title="EVE-NG: Internet Access For Your Labs" /><published>2021-02-28T00:00:00-06:00</published><updated>2021-02-28T00:00:00-06:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/eve-ng-internet-access</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/eve-ng-internet-access">&lt;p&gt;This blog outlines one of the questions I’ve been asked the most:&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;How do I give internet access to my running images?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ever since I released my video &lt;strong&gt;How to run EVE-NG in Google Cloud&lt;/strong&gt; in 2018, I have been inundated with this question and others. I finally put it all together for you and introduce some new ideas in my video series.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Skill Level Required:&lt;/strong&gt; Medium&lt;/p&gt;
+
+&lt;p&gt;If you already know what to do with these commands then go ahead and get started.&lt;/p&gt;
+
+&lt;p&gt;If you don’t know what to do, I created a follow along video, along with other EVE-NG: Tips &amp;amp; Tricks:&lt;/p&gt;
+
+&lt;center&gt;&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/7CJR2l8VXM0&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;&lt;/center&gt;
+
+&lt;h2 id=&quot;add-an-ip-address-to-the-2nd-bridge-interface&quot;&gt;Add an IP address to the 2nd bridge interface:&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo -i
+
+root@eve-ng:~# nano /etc/network/interfaces
+
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+iface eth0 inet manual
+auto pnet0
+iface pnet0 inet dhcp
+    bridge_ports eth0
+    bridge_stp off
+
+# Cloud devices
+iface eth1 inet manual
+auto pnet1
+iface pnet1 inet static     # &amp;lt;-- Change this to static
+    bridge_ports eth1
+    bridge_stp off
+    address 10.199.199.1    # &amp;lt;-- Create an address
+    netmask 255.255.255.0   # &amp;lt;-- Create a subnet mask
+    
+[ ... omitted for brevity ...]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;restart-networking&quot;&gt;Restart Networking:&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@eve-ng:~# systemctl restart networking
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;turn-on-ipv4-forwarding&quot;&gt;Turn on IPv4 Forwarding:&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Edit /etc/sysctl.conf as root and uncomment:
+
+# net.ipv4.ip_forward=1
+
+so that it reads:
+
+net.ipv4.ip_forward=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;force-sysctl-to-read-the-new-values-from-the-file&quot;&gt;Force &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sysctl&lt;/code&gt; to read the new values from the file:&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo -i
+sysctl -p /etc/sysctl.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;configure-iptables-to-nat-outbound-connections&quot;&gt;Configure &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;iptables&lt;/code&gt; to NAT outbound connections:&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo -i
+iptables -t nat -A POSTROUTING -s 10.199.199.0/24 -o pnet0 -j MASQUERADE
+
+# The source &quot;-s ##.###.###.#/##&quot; needs to match the subnet you configured the &quot;pnet1&quot; interface with from above.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;make-iptables-changes-persistent&quot;&gt;Make &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;iptables&lt;/code&gt; changes persistent:&lt;/h2&gt;
+&lt;p&gt;Save the current iptables rules (including the new rule we just added) and create a new file for our script:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo -i
+root@eve-ng:~# iptables-save &amp;gt; /etc/iptables.rules
+root@eve-ng:~# nano /etc/network/if-pre-up.d/iptables
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Enter this content:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+iptables-restore &amp;lt; /etc/iptables.rules
+&lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Save changes then edit/create next “iptables” file:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@eve-ng:~# nano /etc/network/if-post-down.d/iptables
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Enter this content:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+iptables-save &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /etc/iptables.rules
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; /etc/iptables.rules &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+    &lt;/span&gt;iptables-restore &amp;lt; /etc/iptables.rules
+&lt;span class=&quot;k&quot;&gt;fi
+&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Save changes. Make both files executable:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo chmod +x /etc/network/if-post-down.d/iptables
+sudo chmod +x /etc/network/if-pre-up.d/iptables
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;troubleshooting&quot;&gt;Troubleshooting&lt;/h2&gt;
+&lt;h4 id=&quot;the-proper-process&quot;&gt;The Proper Process&lt;/h4&gt;
+&lt;p&gt;I have had great success with this process:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Making the above configuration changes to the VM.&lt;/li&gt;
+  &lt;li&gt;Adding the &lt;strong&gt;Cloud 1&lt;/strong&gt; network to your topology.&lt;/li&gt;
+  &lt;li&gt;Adding any device images.&lt;/li&gt;
+  &lt;li&gt;Connecting their MGMT interfaces to Cloud 1.&lt;/li&gt;
+  &lt;li&gt;Power on the device images.&lt;/li&gt;
+  &lt;li&gt;Configure their MGMT IP address, subnet mask and Default Gateway.&lt;/li&gt;
+  &lt;li&gt;Ping the Default Gateway&lt;/li&gt;
+  &lt;li&gt;Ping an external network (8.8.8.8)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Your first test should always verify you can ping your default gateway(pnet1 interface) from your lab images. If you cannot ping your default gateway try these steps:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Shutdown your lab images conencted to &lt;strong&gt;Cloud 1&lt;/strong&gt; and restart them. Try to ping the Default GW.&lt;/li&gt;
+  &lt;li&gt;Delete your &lt;strong&gt;Cloud 1&lt;/strong&gt; from your topology, save and exit your topology. Launch your topology again and drop in the &lt;strong&gt;Cloud 1&lt;/strong&gt; network again, reconnect it to the device images mgmt interfaces and start the device images.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="eve-ng" /><category term="google cloud" /><category term="internet access" /><summary type="html">This blog outlines one of the questions I’ve been asked the most: How do I give internet access to my running images?</summary></entry><entry><title type="html">Today I Was Asked… Episode 1</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/tiwa-ep1" rel="alternate" type="text/html" title="Today I Was Asked… Episode 1" /><published>2021-02-02T00:00:00-06:00</published><updated>2021-02-02T00:00:00-06:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/tiwa-ep1</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/tiwa-ep1">&lt;h1 id=&quot;today-i-was-asked&quot;&gt;Today I Was Asked:&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;h3 id=&quot;when-a-cisco-asa-throws-a-500003-syslog-message-was-the-packet-forwarded-or-dropped&quot;&gt;“When a Cisco ASA throws a ‘500003’ syslog message, was the packet forwarded or dropped?”&lt;/h3&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For today’s TIWA I wasn’t sure of the answer. I needed to do some research.&lt;/p&gt;
+
+&lt;p&gt;I built a lab, looked at PCAPs and studied the documentation. Here’s what I found.&lt;/p&gt;
+
+&lt;h4 id=&quot;what-is-syslog-message-500003&quot;&gt;What is syslog message 500003?&lt;/h4&gt;
+&lt;p&gt;Cisco Reference: &lt;a href=&quot;https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/b_syslog/syslogs5.html#con_4773942&quot;&gt;https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/b_syslog/syslogs5.html#con_4773942&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;a href=&quot;https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/b_syslog/syslogs5.html#con_4773942&quot;&gt;&lt;img src=&quot;/assets/images/posts/2021-02-02-tiwa-ep1/cisco-syslog.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;In Cisco’s explanation of the error message it isn’t clear on whether or not the packet was forwarded or dropped after the syslog message was thrown. I found myself needing to answer some questions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I could just assume that a packet with an INVALID TCP header would be dropped but, how could I &lt;em&gt;prove&lt;/em&gt; it?&lt;/li&gt;
+  &lt;li&gt;What evidence would I need to gather to &lt;em&gt;prove&lt;/em&gt; it was dropped or forwarded?&lt;/li&gt;
+  &lt;li&gt;What would I need to do/build to test this out?&lt;/li&gt;
+  &lt;li&gt;What if this was a clever evasion strategy from a nation state threat actor and someone was leaning on me to positively say “dropped” or “forwarded”?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/posts/2021-02-02-tiwa-ep1/meme.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;…this was something I just couldn’t let go. I needed to know the answer.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/b_syslog/syslogs5.html#con_4773942&quot;&gt;Cisco documentation&lt;/a&gt; provided some clues:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;TCP RST while responding to a connection request [TCP SYN] to a disabled socket&lt;/li&gt;
+  &lt;li&gt;Some operating systems send incorrect TCP header lengths&lt;/li&gt;
+  &lt;li&gt;TCP header length may indicate it is larger than the packet length&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Inside the TCP header is a field that, when multiplied by 4, gives the length of the TCP headerin bytes. This is called the “Data Offset” becasue it’s the measurement of bytes between the end of the Layer-3 header and the start of the payload.&lt;/p&gt;
+
+&lt;p&gt;Reference: RFC 793: &lt;a href=&quot;https://tools.ietf.org/html/rfc793#section-3.1&quot;&gt;https://tools.ietf.org/html/rfc793#section-3.1&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  Data Offset:  4 bits
+
+    The number of 32 bit words in the TCP Header.  This indicates where
+    the data begins.  The TCP header (even one including options) is an
+    integral number of 32 bits long.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/posts/2021-02-02-tiwa-ep1/tcp-header-rfc.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;By default the TCP header is 20-bytes. Therefore, the TCP header length field would be “0x5” (as mentioned above, the header length value is multiplied by 4).&lt;/p&gt;
+
+&lt;p&gt;This field is interesting because it is only 4-bits long which means it can only hold decimal values of “0” thru “15”. These values multiplied by 4 are: 0,4,8,12,16,20,24,28,32,36,40,44,48,52,56 &amp;amp; 60. In this list only values greater than or equal to “20” are valid. This also means that we could have a TCP header that is 60 bytes in length according to the possible field values.&lt;/p&gt;
+
+&lt;h3 id=&quot;question-what-would-happen-if-we-artificially-inflated-or-deflated-that-value-when-the-actual-tcp-header-remains-20-bytes-long&quot;&gt;Question: What would happen if we artificially inflated or deflated that value, when the actual TCP header remains 20-bytes long?&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;“When in doubt, lab it out!” - Tony E.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Experiment #1: Incorrect TCP Header length in the SYN packet.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Iterate through the possible TCP Header length values (0 - 15) sending one packet each from the client to the server.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Capture the packets leaving the Client.&lt;/li&gt;
+  &lt;li&gt;Observe the syslog messages from the ASA (if there are any)&lt;/li&gt;
+  &lt;li&gt;Does the ASA forward these packets to the server?&lt;/li&gt;
+  &lt;li&gt;Capture incoming packets on the server to verify their reciept.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Experiment #2: Incorrect TCP Header length in the RST packet.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;From the Client, initiate a valid TCP SYN through the ASA toward the Server. On the Server use scapy to craft automatic reponses. Respond to the TCP SYN with an ACK/RST. Iterate through the 16 possible TCP Header length values.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Capture the packets leaving the Client.&lt;/li&gt;
+  &lt;li&gt;Capture incoming packets on the server to verify their reciept.&lt;/li&gt;
+  &lt;li&gt;Capture the return packet (ACK/RST) from the Server.&lt;/li&gt;
+  &lt;li&gt;Observe the syslog messages from the ASA (if there are any)&lt;/li&gt;
+  &lt;li&gt;Does the ASA forward these packets to the Client?&lt;/li&gt;
+  &lt;li&gt;Capture packets on the Client to verify whether ot not the packets are received.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/posts/2021-02-02-tiwa-ep1/topology.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;In both experiments the client is a Windows 10, Surface Pro 5 and the server is an Ubuntu 16.04 VM running in VMware ESXi.&lt;/p&gt;
+
+&lt;h2 id=&quot;experiment-1-incorrect-tcp-header-length-in-the-syn-packet&quot;&gt;Experiment #1: Incorrect TCP Header length in the SYN packet.&lt;/h2&gt;
+&lt;p&gt;Using &lt;a href=&quot;https://github.com/showipintbri/documentation/blob/main/scapy/readme.md&quot;&gt;scapy&lt;/a&gt;, I sent TCP-SYN’s from the “inside” through the “outside” of the ASA to a closed socket on a server. I sent the TCP-SYN starting with a TCP Header length field of “0” and increased by “1” for each subsequent TCP-SYN.&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Malformed TCP Header (Incorrect Offset/Header Length)
+&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dst&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;192.168.1.251&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;666&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;777&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataofs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;S&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Wireshark calls this field the “TCP Header”, other references call it the “Data Offset”. This is a 4-bit field and so can only contain the decimal values between 0-15. To compute the offset or header length in bytes this value is multiplied by 4.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Data Offset value of 0 means 0 bytes of Offset becasue 0 x 4 = 0.&lt;/li&gt;
+  &lt;li&gt;Data Offset value of 5 means 20 bytes of Offset becasue 5 x 4 = 20. (This is the default TCP header length without any TCP Options.)&lt;/li&gt;
+  &lt;li&gt;Data Offset value of 8 means 32 bytes of Offset becasue 8 x 4 = 32.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you set the Offset value to anything less than “5” Wireshark will tell you: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Expert Info (Error/Protocol): Bogus TCP header length (0, must be at least 20)&lt;/code&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/posts/2021-02-02-tiwa-ep1/wireshark_exp_1.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; These are NOT TCP Retransmissions. They are labelled that way by Wireshark because the reuse of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ip.id&lt;/code&gt; field.&lt;/p&gt;
+
+&lt;p&gt;By capturing at the source and the destination you can see the only &lt;strong&gt;TCP SYN&lt;/strong&gt; to get through the ASA has a valid header length value of 0x5 or 20-bytes. Because our server wasn’t listening on the destination port, the server responded with a TCP-RST, terminating the connection. The logs from the Cisco ASA corroborate the packet capture.&lt;/p&gt;
+
+&lt;h4 id=&quot;experiment-1-cisco-asa-logs&quot;&gt;Experiment #1: Cisco ASA Logs&lt;/h4&gt;
+&lt;p&gt;The below logs indicate the error was thrown by “from 10.123.123.101” (our client) as the source. Also you’ll notice no error when the header length equals 20 “(hdrlen=20…”. This is becasue our packets had a TCP header length of 20, this was a valid packet and didn’t generate an error.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%ASA-5-500003: Bad TCP hdr length (hdrlen=0, pktlen=58) from 10.123.123.101/0 to 192.168.1.251/0, flags: INVALID, on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=4, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: INVALID, on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=8, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: INVALID, on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=12, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: INVALID, on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=16, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+
+%ASA-5-500003: Bad TCP hdr length (hdrlen=24, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=28, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=32, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=36, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=40, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=44, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=48, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=52, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=56, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=60, pktlen=58) from 10.123.123.101/666 to 192.168.1.251/777, flags: SYN , on interface inside
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This was a good test. It validates my testing architecture, scripts and environment are working as designed. Now, to being answering the question we’re here for…&lt;/p&gt;
+
+&lt;h2 id=&quot;experiment-2-incorrect-tcp-header-length-in-the-rst-packet&quot;&gt;Experiment #2: Incorrect TCP Header length in the RST packet.&lt;/h2&gt;
+&lt;p&gt;This time we will send valid TCP-SYN’s from the client through the ASA to the Server and on the server we will respond with TCP-RST with incorrect TCP header lengths. Again, I will use &lt;a href=&quot;https://github.com/showipintbri/documentation/blob/main/scapy/readme.md&quot;&gt;scapy&lt;/a&gt; to send the SYN from the client but this time we’ll also use scapy on the server to create an answering machine which automatically responds with a TCP ACK/RST using data offset values we define.&lt;/p&gt;
+
+&lt;h4 id=&quot;scapy-answering-machine-with-incorrect-tcp-header-length&quot;&gt;Scapy Answering Machine With Incorrect TCP Header Length&lt;/h4&gt;
+&lt;p&gt;Reference: &lt;a href=&quot;https://stackoverflow.com/questions/24415464/scapy-sending-receiving-and-responding&quot;&gt;https://stackoverflow.com/questions/24415464/scapy-sending-receiving-and-responding&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;rst&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dst&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dst&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'RA'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;dport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;seq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ack&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;dataofs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;%s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; =&amp;gt; %s&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;summary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;summary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    
+&lt;span class=&quot;n&quot;&gt;sniff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iface&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;eth0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tcp and tcp[tcpflags] &amp;amp; tcp-syn == tcp-syn&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rst&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;experiment-2-client-side-pcap&quot;&gt;Experiment #2: Client side PCAP&lt;/h4&gt;
+&lt;p&gt;In this PCAP you can see the client sending 16 TCP-SYN packets with valid header lengths. The Client only recieves 1 reply from the server.&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/posts/2021-02-02-tiwa-ep1/wireshark_exp_2_client.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; These are NOT TCP Retransmissions. They are labelled that way by Wireshark because the reuse of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ip.id&lt;/code&gt; field.&lt;/p&gt;
+
+&lt;h4 id=&quot;experiment-2-server-side-pcap&quot;&gt;Experiment #2: Server side PCAP&lt;/h4&gt;
+&lt;p&gt;In this server side PCAP you can see the server does respond to every request received from the client and responds with an invalid or malformed TCP ACK/RST. Again, I started at value of “0” and increased by 1 for every iteration.&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/posts/2021-02-02-tiwa-ep1/wireshark_exp_2_server.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; These are NOT TCP Retransmissions. They are labelled that way by Wireshark because the reuse of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ip.id&lt;/code&gt; field.&lt;/p&gt;
+
+&lt;h4 id=&quot;experiment-2-cisco-asa-logs&quot;&gt;Experiment #2: Cisco ASA Logs&lt;/h4&gt;
+&lt;p&gt;The below Cisco ASA logs would corroborate what we are seeing from the packet captures. This time the errors are thrown specifiying “from 192.168.1.251” (the server) as the source. You don’t see an error message for “(hdrlen=20…” becasue our headers were 20 bytes and they were valid.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%ASA-5-500003: Bad TCP hdr length (hdrlen=0, pktlen=58) from 192.168.1.251/0 to 10.123.123.101/0, flags: INVALID, on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=4, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: INVALID, on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=8, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: INVALID, on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=12, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: INVALID, on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=16, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+
+%ASA-5-500003: Bad TCP hdr length (hdrlen=24, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=28, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=32, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=36, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=40, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=44, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=48, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=52, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=56, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+%ASA-5-500003: Bad TCP hdr length (hdrlen=60, pktlen=58) from 192.168.1.251/777 to 10.123.123.101/666, flags: RST ACK , on interface outside
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;h4 id=&quot;question&quot;&gt;Question:&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;When a Cisco ASA throws a “500003” syslog message, was the packet forwarded or dropped?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;answer&quot;&gt;Answer:&lt;/h4&gt;
+&lt;p&gt;From my analysis, in my testing environment, I observed the Cisco ASA 5505 running code “ASA Version 9.2(4)” dropped packets with incorrect TCP header lengths whether the value was under or above the actual TCP header length. This causes the ASA to throw an error message: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%ASA-5-500003&lt;/code&gt; and drop the packet.&lt;/p&gt;
+
+&lt;h4 id=&quot;appendix-cisco-asa-baseline-config-for-reference&quot;&gt;Appendix: Cisco ASA Baseline Config for Reference&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ciscoasa# sho run
+: Saved
+:
+: Serial Number: 
+: Hardware:   ASA5505, 512 MB RAM, CPU Geode 500 MHz
+:
+ASA Version 9.2(4)
+!
+hostname ciscoasa
+enable password 8Ry2YjIyt7RRXU24 encrypted
+xlate per-session deny tcp any4 any4
+xlate per-session deny tcp any4 any6
+xlate per-session deny tcp any6 any4
+xlate per-session deny tcp any6 any6
+xlate per-session deny udp any4 any4 eq domain
+xlate per-session deny udp any4 any6 eq domain
+xlate per-session deny udp any6 any4 eq domain
+xlate per-session deny udp any6 any6 eq domain
+passwd 2KFQnbNIdI.2KYOU encrypted
+names
+!
+interface Ethernet0/0
+ switchport access vlan 5
+!
+interface Ethernet0/1
+ switchport access vlan 10
+
+[ ... omitted for brevity ... ]
+
+interface Vlan5
+ nameif outside
+ security-level 0
+ ip address dhcp setroute
+!
+interface Vlan10
+ nameif inside
+ security-level 100
+ ip address 10.123.123.1 255.255.255.0
+!
+boot system disk0:/asa924-k8.bin
+ftp mode passive
+pager lines 24
+logging enable
+logging console notifications
+logging monitor notifications
+logging buffered informational
+mtu outside 1500
+mtu inside 1500
+icmp unreachable rate-limit 1 burst-size 1
+no asdm history enable
+arp timeout 14400
+no arp permit-nonconnected
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+dynamic-access-policy-record DfltAccessPolicy
+user-identity default-domain LOCAL
+no snmp-server location
+no snmp-server contact
+crypto ipsec security-association pmtu-aging infinite
+crypto ca trustpool policy
+telnet timeout 5
+ssh stricthostkeycheck
+ssh timeout 5
+ssh key-exchange group dh-group1-sha1
+console timeout 0
+
+dhcpd address 10.123.123.100-10.123.123.150 inside
+dhcpd enable inside
+!
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+!
+class-map inspection_default
+ match default-inspection-traffic
+!
+!
+policy-map global_policy
+ class inspection_default
+  inspect icmp
+!
+service-policy global_policy global
+prompt hostname context
+no call-home reporting anonymous
+Cryptochecksum:7ee497ef016ac635c23ce2bd9980ee74
+: end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="t.i.w.a" /><category term="cisco asa" /><category term="scapy" /><summary type="html">Today I Was Asked: “When a Cisco ASA throws a ‘500003’ syslog message, was the packet forwarded or dropped?”</summary></entry><entry><title type="html">How to Expand Partitions on Surface Pro</title><link href="https://blog.showipintbri.com/pages/showipintbri/blog/partitions" rel="alternate" type="text/html" title="How to Expand Partitions on Surface Pro" /><published>2021-01-09T00:00:00-06:00</published><updated>2021-01-09T00:00:00-06:00</updated><id>https://blog.showipintbri.com/pages/showipintbri/blog/partitions</id><content type="html" xml:base="https://blog.showipintbri.com/pages/showipintbri/blog/partitions">&lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
+&lt;p&gt;I couldn’t expand the Primary partition because there was another partition in the way. I needed to move the small partition before I could expand the primary.&lt;/p&gt;
+
+&lt;h4 id=&quot;background&quot;&gt;Background&lt;/h4&gt;
+&lt;p&gt;I had a Surface Pro 4 that suffered from the ‘&lt;a href=&quot;https://answers.microsoft.com/en-us/search/search?SearchTerm=Surface%20Pro%204%20swelling&amp;amp;tab=&amp;amp;status=all&amp;amp;advFil=&amp;amp;IsSuggestedTerm=false&amp;amp;isFilterExpanded=undefined&amp;amp;CurrentScope.ForumName=surface&amp;amp;CurrentScope.Filter=surfpro4-surfperf&amp;amp;ContentTypeScope=QnA,Discussion,Article,MicrosoftSupport&amp;amp;page=1&amp;amp;sort=Relevance&amp;amp;dir=Desc&amp;amp;from=threadpagesearchbar&quot;&gt;Battery Swelling&lt;/a&gt;’ issue. My Surface Pro 4 had a 256GB storage. The Microsoft store replaced my product with the closest thing they had in stock which was a Surface Pro 5 with 512GB storage. They offerred to backup my data making a 1:1 copy of the entire storage of the Pro 4 and put it on the Pro 5. I returned the next day to pick up my new Surface Pro 5. Under the kickstand it has the “512GB” storage identifier but under “This PC” in file explorer it shows the “C:&quot; drive as being only 256GB total. I checked the partition table using the windows tool and it showed another 256GB unallocated. I keep my storage pretty lean so this wasn’t an immediate concern but eventually I knew I needed to claim that unallocated space.&lt;/p&gt;
+
+&lt;p&gt;On the right side of the Primary “Windows” partition is a recovery partition. When this was copied over to a larger capacity sotrage it retained its size and capacity.&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/posts/2021-01-09-partitions/part.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;While it would’ve been very easy for me to right-click in the “Disk Management” tool in Windows, format the unallocated space creating a “D:&quot; drive which was 256GB in size but I didn’t want that. I wanted the maximum allocatable space to all belong to the “C:&quot; drive. This would require me to reloacte the “Recovery” partition all the way to the right of the entire disk, then expanding the Primary Windows Partition to claim the rest of the unallocated space.&lt;/p&gt;
+
+&lt;p&gt;I found this was best accomplished with a GUI utility because I wasn’t familiar with the available CLI options. All in all this process took about 10 minutes.&lt;/p&gt;
+
+&lt;h4 id=&quot;materials&quot;&gt;Materials&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Thumb Drive you can wipe&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://gparted.org/livecd.php&quot;&gt;GParted Live&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;warning-make-sure-you-have-current-full-system-backup-before-proceding&quot;&gt;WARNING: MAKE SURE YOU HAVE CURRENT FULL SYSTEM BACKUP BEFORE PROCEDING&lt;/h2&gt;
+&lt;h4 id=&quot;procedure&quot;&gt;Procedure&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Create the bootable thumb drive.&lt;br /&gt;
+    &lt;ul&gt;
+      &lt;li&gt;I used the latest &lt;strong&gt;stable&lt;/strong&gt; release for amd64 (iso file)&lt;/li&gt;
+      &lt;li&gt;I used Etcher for writting to the thumb drive&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Boot from the thumb drive.&lt;br /&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Most guides will have you ‘turn off secure boot’, but I left “Secure Boot: on” and was able to complete everything.&lt;/li&gt;
+      &lt;li&gt;Shutdown and Power off your Surface Pro. &lt;strong&gt;DO NOT&lt;/strong&gt; hibernate or sleep the device.&lt;/li&gt;
+      &lt;li&gt;Insert the thumb drive&lt;/li&gt;
+      &lt;li&gt;Hold down the &lt;strong&gt;Volume Down&lt;/strong&gt; button while pressing and releasing the power button. I continued to hold the Volume Down button for a few more seconds then releasing it.&lt;/li&gt;
+      &lt;li&gt;You should see a black screen with boot text on it, instead of the usual Windows logo.&lt;/li&gt;
+      &lt;li&gt;You should be greated with the GParted Live boot menu. &lt;strong&gt;NOTE:&lt;/strong&gt; The text is extremely small in this menu. I selected the &lt;strong&gt;top&lt;/strong&gt; boot option which should be the default.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Once in the live environment open “GParted”.&lt;br /&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Right-click the “Recovery Partition” and choose “Resize/Move”&lt;/li&gt;
+      &lt;li&gt;In the new pop-up hover the mouse over the small box representing the partition, your sursor should change to a “:heavy_plus_sign:” with arrows. Click and drag the small box representing the partition all the way to the right.&lt;br /&gt;
+        &lt;ul&gt;
+          &lt;li&gt;The “Free space preceding (MiB)” should increase.&lt;/li&gt;
+          &lt;li&gt;The “New Size (MiB)” should remain the same.&lt;/li&gt;
+          &lt;li&gt;The “Free space following (MiB)” should decrease to “1” or “0”.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Click the “Resize/Move” button to queue the changes.&lt;/li&gt;
+      &lt;li&gt;Now, right-click the large primary windows partition and choose “Resize/Move”.&lt;/li&gt;
+      &lt;li&gt;In the new window hove you cursor over the right-edge of the small box representing the partition. Your cursor should change to an “:arrow_right:”. Click and drag this edge all the way to the right.&lt;br /&gt;
+        &lt;ul&gt;
+          &lt;li&gt;The “Free space preceding (MiB)” should remain the same.&lt;/li&gt;
+          &lt;li&gt;The “New Size (MiB)” should increase.&lt;/li&gt;
+          &lt;li&gt;The “Free space following (MiB)” should decrease to “1” or “0”.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Click the “Resize/Move” button to queue the changes.&lt;/li&gt;
+      &lt;li&gt;Click on the Green Checkmark(:heavy_check_mark:) in the main menu bar to commit the changes.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Once complete, use the shutdown feature of GParted Live and shutdown the machine.&lt;/li&gt;
+  &lt;li&gt;Remove the thumb drive and reboot the Surface Pro. It should boot like normal.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;After the computer completely rebooted, I openned file explorer, clicked on “This PC” and saw my disk was still showing “~256GB” total capacity. This was wrong, it should be ~512GB. I openned Disk Management, clicked on my Primary Windows partition and clicked “Refresh” from the drop down menu. This caused the Surface Pro to immediately bluescreen and go into Recovery Mode. This took about 1 - 2 minutes to recover. Once it was finished “&lt;em&gt;rebuilding&lt;/em&gt;”, it rebooted again. I checked everything and I now had ~512GB full drive capacity available to me.&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/posts/2021-01-09-partitions/disk-management.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;I’m not sure why this process caused the computer to jump to Recovery Mode. If you know, tell me.&lt;/p&gt;</content><author><name></name></author><category term="surface pro" /><category term="gparted" /><category term="partitions" /><summary type="html">TL;DR I couldn’t expand the Primary partition because there was another partition in the way. I needed to move the small partition before I could expand the primary.</summary></entry></feed>
