@@ -1,2 +1,5 @@
-# Blog
-Public Repo to house the gnerated HTML for my blog site: [https://blog.showipintbri.com](https://blog.showipintbri.com)
+# showipintbri.github.io
+
+Source code repository for my blog: 
+- [https://blog.showipintbri.com](https://blog.showipintbri.com) \(Cloudflare\)
+- [https://showipintbri.github.io](https://showipintbri.github.io) \(Github Direct\)

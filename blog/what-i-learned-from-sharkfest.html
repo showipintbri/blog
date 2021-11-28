@@ -1,0 +1,154 @@
+<!DOCTYPE html><html><head><head> <!-- Include Meta Tags Here --><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="viewport" content="width=device-width, height=device-height, initial-scale=1 user-scalable=no, shrink-to-fit=no"><meta content='#000000' name='theme-color'/><meta name="keywords" content="Blog, CCIE, Cisco, Wireshark, PCAP, Suricata, Bro, Zeek"><title>Failing Forward | What I learned From Sharkfest '20</title><!-- Open Graph general (Facebook, Pinterest & Google+) --><meta name="og:title" content="Failing Forward | What I learned From Sharkfest '20"><meta name="og:description" content="Sharkfest is a wealth of information for all network and security practitioners. Here are a couple packet analysis tips that I'll be using and you can too!"><meta name="og:image" content="/assets/images/sf20v_logo.png"><meta name="og:image:alt" content="Failing Forward | What I learned From Sharkfest '20"><meta name="og:url" content="https://blog.showipintbri.com/pages/showipintbri/blog/what-i-learned-from-sharkfest"><meta name="article:author" content="https://www.facebook.com/NetCollectivePC"><meta name="og:site_name" content="Failing Forward | What I learned From Sharkfest '20"><meta name="og:type" content="website"> <!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Failing Forward | What I learned From Sharkfest '20"><meta name="twitter:description" content="Sharkfest is a wealth of information for all network and security practitioners. Here are a couple packet analysis tips that I'll be using and you can too!"><meta name="twitter:site" content="@showipintbri"><meta name="twitter:creator" content="@showipintbri"><meta name="twitter:image" content="https://blog.showipintbri.com/assets/images/sf20v_logo.png"> <!-- Search Engine --><meta name="description" content="Sharkfest is a wealth of information for all network and security practitioners. Here are a couple packet analysis tips that I'll be using and you can too!"><meta name="image" content="/assets/images/sf20v_logo.png"> <!-- Schema.org for Google --><meta itemprop="name" content="Failing Forward | What I learned From Sharkfest '20"><meta name="author" content="Tony E."/><meta itemprop="description" content="Sharkfest is a wealth of information for all network and security practitioners. Here are a couple packet analysis tips that I'll be using and you can too!"><meta itemprop="image" content="/assets/images/sf20v_logo.png"><title>Failing Forward</title><link rel="stylesheet" href="/pages/showipintbri/assets/css/style.css"> <script src="https://kit.fontawesome.com/6a97161b76.js" crossorigin="anonymous"></script><link rel="shortcut icon" href="https://blog.showipintbri.com/pages/showipintbri/assets/images/logo.png" type="image/x-icon"></head></head><body><nav class="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation" id="navbar"><div class="container"> <!-- logo or branding image on left side --><div class="navbar-brand"> <a class="navbar-item" href="https://blog.showipintbri.com/pages/showipintbri/"> <strong>Failing Forward</strong> </a><div class="navbar-burger" data-target="navbar-menu"> <span></span> <span></span> <span></span>
+</div>
+</div>
+<!-- children of navbar-menu must be navbar-start and/or navbar-end --><div class="navbar-menu has-background-black" id="navbar-menu"> <!-- navbar items | left side --> <!--<div class="navbar-start"></div>--> <!-- navbar items | right side --><div class="navbar-end"> <a class="navbar-item " href="https://blog.showipintbri.com/pages/showipintbri/">HOME</a> <a class="navbar-item" href="https://blog.showipintbri.com/pages/showipintbri/#about">ABOUT</a> <a class="navbar-item" href="https://blog.showipintbri.com/pages/showipintbri/#contact">CONTACT</a><div class="navbar-item has-dropdown is-hoverable"> <a class="navbar-link"> BLOG </a><div class="navbar-dropdown has-background-black is-left"> <a href="https://blog.showipintbri.com/pages/showipintbri/blog" class="navbar-item has-text-grey-light "> BLOG POSTS </a> <a href="https://blog.showipintbri.com/pages/showipintbri/tags" class="navbar-item has-text-grey-light "> TAGS </a> <!-- <a href="https://blog.showipintbri.com/pages/showipintbri/categories" class="navbar-item has-text-grey-light "> CATEGORIES </a> <a href="https://blog.showipintbri.com/pages/showipintbri/search" class="navbar-item has-text-grey-light "> SEARCH </a> -->
+</div>
+</div>
+</div>
+</div>
+</div></nav><!-- Bulma Navbar JS --> <script> document.addEventListener('DOMContentLoaded', function () { /* Get all "navbar-burger" elements */ var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0); /* Check if there are any navbar burgers */ if ($navbarBurgers.length > 0) { /* Add a click event on each of them */ $navbarBurgers.forEach(function ($el) { $el.addEventListener('click', function () { /* Get the target from the "data-target" attribute */ var target = $el.dataset.target; var $target = document.getElementById(target); /* Toggle the class on both the "navbar-burger" and the "navbar-menu" */ $el.classList.toggle('is-active'); $target.classList.toggle('is-active'); }); }); } }); </script><section class="hero is-fullheight has-text-centered" id="post"><div class="hero-body"><div class="container"> <a href="/pages/showipintbri/blog/what-i-learned-from-sharkfest" class="has-text-black" id="title"><h1 class="title has-text-centered is-2 has-text-weight-semibold ">What I learned From Sharkfest '20</h1></a><hr class="has-background-black">
+<div class="columns is-variable is-5">
+<div class="column is-6"><figure class="image is-16by9 has-shadow"> <img src="/assets/images/sf20v_logo.png" alt="" id="post-image"></figure></div>
+<div class="subtitle column is-5 has-text-left-desktop has-text-left-fullhd has-text-left-tablet has-text-center-mobile">
+<p id="description" class="content is-small has-text-weight-medium is-uppercase">Sharkfest is a wealth of information for all network and security practitioners. Here are a couple packet analysis tips that I'll be using and you can too!</p>
+<p class="subtitle is-6 is-uppercase has-text-weight-normal has-text-black-ter">Published on <b>October 25, 2020</b> by <a href="https://twitter.com/showipintbri" target="_blank"><b class="has-text-link"><u>Tony E.</u></b> </a></p>
+<p class="subtitle is-uppercase"> <i class="fas fa-tags"></i> <a href="/blog/tag/sharkfest"><span class="tag is-link">sharkfest</span></a> <a href="/blog/tag/wireshark"><span class="tag is-link">wireshark</span></a> <a href="/blog/tag/pcap"><span class="tag is-link">pcap</span></a></p>
+<p class="subtitle is-uppercase"><i class="fas fa-clock"></i> <b class="has-text-link"> 6 min </b>READ</p>
+</div>
+</div>
+<div class="content has-text-left-desktop has-text-left-fullhd has-text-left has-text-left-tablet has-text-left-mobile">
+<p></p>
+<p>I learned a ton of great things that will help me as a better network engineer, and analyst. This will be a recap of a couple important take aways that everyone can use any time they are looking at PCAPs. If you find any of this interesting go subscribe to the <a href="https://www.youtube.com/c/SharkFestWiresharkDeveloperandUserConference/">Sharkfest YouTube channel</a> and start planning to attend the next Sharkfest near you!</p>
+<hr>
+<h2 id="where-you-capture-from-matters">Where You Capture From Matters!</h2>
+<p>The key take away here is:</p>
+<ol>
+<li>Know what questions you’re trying to answer and which capture points are the best to answer those questions.</li>
+<li>Capture at both sides of the conversation, source &amp; destination, this will give the most complete view.</li>
+</ol>
+<p align="center"> <img src="/assets/images/capture_points.png"></p>
+<p><strong>Source/Destination local host capture:</strong> (Score: 1/3)</p>
+<ul>
+<li>
+<img class="emoji" title=":heavy_check_mark:" alt=":heavy_check_mark:" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="20" width="20">Software change only. (Administrative privileges required)</li>
+<li>
+<img class="emoji" title=":x:" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="20" width="20">Data/timings/performance can be mis-leading.</li>
+<li>
+<img class="emoji" title=":x:" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="20" width="20">Hardware offloading (at the NIC) can present misleading PCAPs with regards to: packet tx/rx timings, performance and packet sizes.</li>
+</ul>
+<p><strong>TAP near the source/destination:</strong> (Score: 3/4)</p>
+<ul>
+<li>
+<img class="emoji" title=":heavy_check_mark:" alt=":heavy_check_mark:" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="20" width="20">Best option for measuring tx/rx timings.</li>
+<li>
+<img class="emoji" title=":heavy_check_mark:" alt=":heavy_check_mark:" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="20" width="20">True on-the-wire sizing.</li>
+<li>
+<img class="emoji" title=":heavy_check_mark:" alt=":heavy_check_mark:" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="20" width="20">Great for measuing performance.</li>
+<li>
+<img class="emoji" title=":x:" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="20" width="20">Requires physical network changes.</li>
+</ul>
+<p><strong>SPAN/Mirror:</strong> (Score: 1/5)</p>
+<ul>
+<li>
+<img class="emoji" title=":heavy_check_mark:" alt=":heavy_check_mark:" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="20" width="20">Can capture many clients/servers at once.</li>
+<li>
+<img class="emoji" title=":x:" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="20" width="20">Not ideal for measuring performance.</li>
+<li>
+<img class="emoji" title=":x:" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="20" width="20">Each vendor can pull the SPAN/Mirror from differnt packet/frame hardware/software paths resulting in differnt headers being stripped or added before or after being SPAN/Mirrored.</li>
+<li>
+<img class="emoji" title=":x:" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="20" width="20">Packets can be lost/not SPAN’d resulting in broken sessions in the PCAP.</li>
+<li>
+<img class="emoji" title=":x:" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="20" width="20">Packets can be queued for tx changing the original rx timing.</li>
+</ul>
+<hr>
+<h2 id="ip-id-number">IP ID Number</h2>
+<p>From <a href="https://tools.ietf.org/html/rfc791#page-11">RFC 791</a>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   Identification:  16 bits
+
+   An identifying value assigned by the sender to aid in assembling the
+   fragments of a datagram.
+</code></pre></div></div>
+<p>The IP ID is set by the sender for when a packet is fragmented in the path it indicates to the receiver that all the fragments should be reassembled and are part of the same packet. Both the client and server set their own IP ID values.</p>
+<p>The very convienient thing about IP ID is, they are often sequential making it super easy to spot: out of order packets, missing packets, and hardware offloading in some cases. If you were to follow an IP conversation and filter by only the source or destination, you would commonly see sequential IP ID’s.</p>
+<p align="center"> <img src="/assets/images/ip_id_sequence.png"></p>
+<p>This is a mandatory field in IPv4 for all IP packets but is only seen in IPv6 packets when fragmentation is used.</p>
+<p align="center"> <img src="/assets/images/ip_id_packet_header.png"></p>
+<p><strong>Warning:</strong> It is possible to have the same IP ID for different sessions within the same PCAP.</p>
+<p align="center"> <img src="/assets/images/same_ip_id.png"></p>
+<p>Like everyhting in IT and networking, there’s always exceptions, as was pointed out in Sharkfest Discord by <a href="https://twitter.com/PacketJay">Jasper</a>:</p>
+<blockquote><p>Some Firewalls can change the IP ID, e.g. pfSense has a “IP Random id generation” setting which modifies the IP ID.</p></blockquote>
+<p align="center"> <img src="/assets/images/pfsense_ipid.png"></p>
+<p>IP ID can also reveal if a TCP Retransmission is a true retransmission or if it is a packet that was captured twice. If a packet was captured twice, or if duplicate packets were created by a networking device in the path, the IP ID would be the same on both captured packets. If the captured packet is a true TCP Retransmission a new IP ID would be used (in most cases).</p>
+<hr>
+<h2 id="tcp-stream-graphs">TCP Stream Graphs</h2>
+<p>This is a feature in Wireshark I have never used in confidence. I knew it existed but didn’t understand: what I was looking at and what these graphs could indicate.</p>
+<p>Through some careful hand holding I now have a basic understanding of them and I now incorporate them into my analysis, when needed.</p>
+<p>These can all be found under: <strong>Statistics –&gt; TCP Stream Graphs</strong></p>
+<p><strong>Stevens Graph:</strong> Tracks sequence numbers seen over time. This is uni-derectional. This can indicate so quickly when out-of-order packets have been seen.</p>
+<ul>
+<li>
+<img class="emoji" title=":heavy_check_mark:" alt=":heavy_check_mark:" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="20" width="20">Ideally you would want a constant incline.</li>
+<li>
+<img class="emoji" title=":x:" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="20" width="20">When you see valley’s or falls it indicates a packet was received with a sequence number lower than the packets before it.</li>
+<li><dl>
+<dt>
+<img class="emoji" title=":x:" alt=":x:" src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="20" width="20">When you see a plateau it indicates time has passed without seeing an increase of sequence number.</dt>
+<dt><strong>NOTE:</strong></dt>
+<dd>These indicators by themselves aren’t always an issue but can start to build a story of where an issue might be.</dd>
+</dl></li>
+</ul>
+<p align="center"> <img src="/assets/images/stevens.png"></p>
+<hr>
+<h2 id="the-power-of-profiles">The Power of Profiles</h2>
+<p>I have never used different profiles for different scenarios. I always stuck with the “Default” profile. Through Sharkfest I learned the importance of different profiles and how they contribute to the efficiency of analysis.</p>
+<p>Depending on what type of questions you need to answer you might need different data available to you (different from the default profile). This is why profiles are so important.</p>
+<p>Some of the things you can do with profiles are:</p>
+<ul>
+<li>
+<strong>Coloring Rules:</strong> Define when Wireshark should highlight a packet and what the foreground/background colors should be.</li>
+<li>
+<strong>Columns:</strong> You can customize colomns putting the data you need next to each other.</li>
+<li>
+<strong>Filter Buttons:</strong> Buttons which store common display filters so the can be easily applied.</li>
+</ul>
+<p>While the below TCP Profile might not mean anything to you. That’s okay because it’s not suposed to mean anything to <em>you</em>, it’s supposed to mean something to <em>me</em> and help <em>me</em> solve a problem. Profiles are very personal and should help the individual increase their own analysis efficiency.</p>
+<p align="center"> <img src="/assets/images/tcp_profile.png"></p>
+<hr>
+<h2 id="expert-information">Expert Information</h2>
+<p>Shamefully, I never knew what that “stop light” indicator was for in Wireshark’s bottom left corner. From Sharkfest, I learned that is an aggregate of the “Expert Information” Wireshark sometimes adds to packets to indicate something that should be looked at. It’s important to know that these aren’t all “problems”, this is just information. Some of the quick things this is good for is quickly locating packets where: TCP Window is Full, Out-of-Order segments TCP Retransmissions and more.</p>
+<p>The color of the stop light will be of the highest severity seen in the capture.</p>
+<p align="center"> <img src="/assets/images/expert_info.png"></p>
+<hr>
+<h1 id="but-wait-theres-more">…But Wait, There’s More!</h1>
+<p>I learned sooo much and there’s so much more detail and depth to go into on each of these topics.</p>
+<p>There are many more analysis eficiencies to go over.</p>
+<p>If you want to learn more or if I got something wrong, let me know using Disqus below (you can post as guest), or let me know on Twitter <img class="emoji" title=":wink:" alt=":wink:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f609.png" height="20" width="20"></p>
+<p>Again, if you find any of this interesting go subscribe to the <a href="https://www.youtube.com/c/SharkFestWiresharkDeveloperandUserConference/">Sharkfest YouTube channel</a> and start planning on attending the next Sharkfest near you!</p>
+</div>
+</div></div></section><footer id="footer"> <!--Footer Button--><div class="container has-text-centered has-background-grey-darker" id="backtotop"> <a class="has-text-white" onclick="window.scroll(0,0)">BACK TO TOP</a>
+</div>
+<!--Footer Main Section--><div class="has-background-grey-darker"><div class="container columns"> <!--Name Section--><div class="column has-text-left-desktop has-text-centered-mobile"> <a href="https://blog.showipintbri.com/pages/showipintbri/#about"><div class="columns">
+<div class="column is-one-fifth-desktop is-one-fifth-fullhd is-one-quarter-tablet"><figure class="image is-64x64"> <img class="is-rounded" src="/assets/images/tonye.jpg"></figure></div>
+<div class="column is-marginless">
+<h5 class="has-text-grey-lighter">Tony E.</h5>
+<div class="content has-text-grey"><p>Tony E. is a network security engineer, CCIE# 64908 &amp; GIAC: Network Fore...</p></div>
+</div>
+</div></a>
+</div>
+<!--Link Section--><div class="column has-text-white">
+<h3>More Links</h3>
+<!--<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/certifications">certifications</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/cisco-asa">cisco asa</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/eve-ng">eve-ng</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/future">future</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/giac">giac</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/goals">goals</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/google-cloud">google cloud</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/gparted">gparted</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/hex">hex</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/internet-access">internet access</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/intrusion-prevention">intrusion prevention</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/ips">ips</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/live">live</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/network-collective">network collective</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/network-field-day">network field day</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/network-forensics">network forensics</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/nfd23">nfd23</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/organization">organization</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/partitions">partitions</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/past">past</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/pcap">pcap</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/present">present</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/sans">sans</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/scapy">scapy</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/scripts">scripts</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/sharkfest">sharkfest</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/stream">stream</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/surface-pro">surface pro</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/suricata">suricata</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/t-i-w-a">t.i.w.a</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/tags">Tags</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/tcp">tcp</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/tcpdump">tcpdump</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/tracewrangler">tracewrangler</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/vyos">vyos</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/wireshark">wireshark</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/zeek">zeek</a></li>--><li> <a target="_blank" href="https://blog.showipintbri.com/pages/showipintbri/feed.xml">Subscribe via RSS</a>
+</li>
+</div>
+<!--Blog-post Section--><div class="column has-text-white">
+<h3>Recent Posts</h3>
+<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/sharkfest-2021">WiresharkFest 2021 (US)</a>
+</li>
+<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/suricata-vyos">Build Your Own IPS w/ Suricata Container on VyOS Router</a>
+</li>
+<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/sans-for572">SANS: FOR572 &amp; Passing the GNFA!!!</a>
+</li>
+</div>
+</div></div>
+<div class="has-background-black has-text-centered has-text-white" id="credits"> <i class="far fa-copyright"></i> 2021 | Based on <a href="https://github.com/thedevslot/WhatATheme" target="_blank" rel="noopener noreferrer">WhatATheme</a> by <a href="https://www.twitter.com/thedevslot" target="_blank" rel="noopener noreferrer">TheDevsLot</a> Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>
+</div></footer></body></html>

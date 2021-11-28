@@ -1,0 +1,306 @@
+<!DOCTYPE html><html><head><head> <!-- Include Meta Tags Here --><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="viewport" content="width=device-width, height=device-height, initial-scale=1 user-scalable=no, shrink-to-fit=no"><meta content='#000000' name='theme-color'/><meta name="keywords" content="Blog, CCIE, Cisco, Wireshark, PCAP, Suricata, Bro, Zeek"><title>Failing Forward | Build Your Own IPS w/ Suricata Container on VyOS Router</title><!-- Open Graph general (Facebook, Pinterest & Google+) --><meta name="og:title" content="Failing Forward | Build Your Own IPS w/ Suricata Container on VyOS Router"><meta name="og:description" content="In this post I'm going to walk through building a best-in-class, in-line, fail-open, IPS using a Suricata container running on a VyOS router."><meta name="og:image" content="/assets/images/posts/2021-06-13-suricata-vyos/suricata-vyos-title.png"><meta name="og:image:alt" content="Failing Forward | Build Your Own IPS w/ Suricata Container on VyOS Router"><meta name="og:url" content="https://blog.showipintbri.com/pages/showipintbri/blog/suricata-vyos"><meta name="article:author" content="https://www.facebook.com/NetCollectivePC"><meta name="og:site_name" content="Failing Forward | Build Your Own IPS w/ Suricata Container on VyOS Router"><meta name="og:type" content="website"> <!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Failing Forward | Build Your Own IPS w/ Suricata Container on VyOS Router"><meta name="twitter:description" content="In this post I'm going to walk through building a best-in-class, in-line, fail-open, IPS using a Suricata container running on a VyOS router."><meta name="twitter:site" content="@showipintbri"><meta name="twitter:creator" content="@showipintbri"><meta name="twitter:image" content="https://blog.showipintbri.com/assets/images/posts/2021-06-13-suricata-vyos/suricata-vyos-title.png"> <!-- Search Engine --><meta name="description" content="In this post I'm going to walk through building a best-in-class, in-line, fail-open, IPS using a Suricata container running on a VyOS router."><meta name="image" content="/assets/images/posts/2021-06-13-suricata-vyos/suricata-vyos-title.png"> <!-- Schema.org for Google --><meta itemprop="name" content="Failing Forward | Build Your Own IPS w/ Suricata Container on VyOS Router"><meta name="author" content="Tony E."/><meta itemprop="description" content="In this post I'm going to walk through building a best-in-class, in-line, fail-open, IPS using a Suricata container running on a VyOS router."><meta itemprop="image" content="/assets/images/posts/2021-06-13-suricata-vyos/suricata-vyos-title.png"><title>Failing Forward</title><link rel="stylesheet" href="/pages/showipintbri/assets/css/style.css"> <script src="https://kit.fontawesome.com/6a97161b76.js" crossorigin="anonymous"></script><link rel="shortcut icon" href="https://blog.showipintbri.com/pages/showipintbri/assets/images/logo.png" type="image/x-icon"></head></head><body><nav class="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation" id="navbar"><div class="container"> <!-- logo or branding image on left side --><div class="navbar-brand"> <a class="navbar-item" href="https://blog.showipintbri.com/pages/showipintbri/"> <strong>Failing Forward</strong> </a><div class="navbar-burger" data-target="navbar-menu"> <span></span> <span></span> <span></span>
+</div>
+</div>
+<!-- children of navbar-menu must be navbar-start and/or navbar-end --><div class="navbar-menu has-background-black" id="navbar-menu"> <!-- navbar items | left side --> <!--<div class="navbar-start"></div>--> <!-- navbar items | right side --><div class="navbar-end"> <a class="navbar-item " href="https://blog.showipintbri.com/pages/showipintbri/">HOME</a> <a class="navbar-item" href="https://blog.showipintbri.com/pages/showipintbri/#about">ABOUT</a> <a class="navbar-item" href="https://blog.showipintbri.com/pages/showipintbri/#contact">CONTACT</a><div class="navbar-item has-dropdown is-hoverable"> <a class="navbar-link"> BLOG </a><div class="navbar-dropdown has-background-black is-left"> <a href="https://blog.showipintbri.com/pages/showipintbri/blog" class="navbar-item has-text-grey-light "> BLOG POSTS </a> <a href="https://blog.showipintbri.com/pages/showipintbri/tags" class="navbar-item has-text-grey-light "> TAGS </a> <!-- <a href="https://blog.showipintbri.com/pages/showipintbri/categories" class="navbar-item has-text-grey-light "> CATEGORIES </a> <a href="https://blog.showipintbri.com/pages/showipintbri/search" class="navbar-item has-text-grey-light "> SEARCH </a> -->
+</div>
+</div>
+</div>
+</div>
+</div></nav><!-- Bulma Navbar JS --> <script> document.addEventListener('DOMContentLoaded', function () { /* Get all "navbar-burger" elements */ var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0); /* Check if there are any navbar burgers */ if ($navbarBurgers.length > 0) { /* Add a click event on each of them */ $navbarBurgers.forEach(function ($el) { $el.addEventListener('click', function () { /* Get the target from the "data-target" attribute */ var target = $el.dataset.target; var $target = document.getElementById(target); /* Toggle the class on both the "navbar-burger" and the "navbar-menu" */ $el.classList.toggle('is-active'); $target.classList.toggle('is-active'); }); }); } }); </script><section class="hero is-fullheight has-text-centered" id="post"><div class="hero-body"><div class="container"> <a href="/pages/showipintbri/blog/suricata-vyos" class="has-text-black" id="title"><h1 class="title has-text-centered is-2 has-text-weight-semibold ">Build Your Own IPS w/ Suricata Container on VyOS Router</h1></a><hr class="has-background-black">
+<div class="columns is-variable is-5">
+<div class="column is-6"><figure class="image is-16by9 has-shadow"> <img src="/assets/images/posts/2021-06-13-suricata-vyos/suricata-vyos-title.png" alt="" id="post-image"></figure></div>
+<div class="subtitle column is-5 has-text-left-desktop has-text-left-fullhd has-text-left-tablet has-text-center-mobile">
+<p id="description" class="content is-small has-text-weight-medium is-uppercase">In this post I'm going to walk through building a best-in-class, in-line, fail-open, IPS using a Suricata container running on a VyOS router.</p>
+<p class="subtitle is-6 is-uppercase has-text-weight-normal has-text-black-ter">Published on <b>June 13, 2021</b> by <a href="https://twitter.com/showipintbri" target="_blank"><b class="has-text-link"><u>Tony E.</u></b> </a></p>
+<p class="subtitle is-uppercase"> <i class="fas fa-tags"></i> <a href="/blog/tag/suricata"><span class="tag is-link">suricata</span></a> <a href="/blog/tag/vyos"><span class="tag is-link">vyos</span></a> <a href="/blog/tag/ips"><span class="tag is-link">ips</span></a> <a href="/blog/tag/intrusion-prevention"><span class="tag is-link">intrusion prevention</span></a></p>
+<p class="subtitle is-uppercase"><i class="fas fa-clock"></i> <b class="has-text-link"> 11 min </b>READ</p>
+</div>
+</div>
+<div class="content has-text-left-desktop has-text-left-fullhd has-text-left has-text-left-tablet has-text-left-mobile">
+<p></p>
+<p>In this post I’m going to walk through building a best-in-class, in-line, fail-open, IPS using a Suricata container running on a VyOS router.</p>
+<p>After reading a <a href="https://blog.vyos.io/vyos-project-may-2021-update">recent blog</a> from the VyOS dev team demonstrating an example of supporting containers natively from the VyOS CLI, I knew I had to try it with Suricata. Combining an amazing routing platform, with best in class Network Security Monitoring (NSM) and Intrusion Prevention System (IPS), both of which are Free and Open Source Software (FOSS) has been a dream of mine.</p>
+<p><strong>INB4:</strong> Yes, I am well aware that pfsense and OPNsense has Suricata and FRR plugin’s available. I’ll withold my opinions of them from this post and save my commentary on them for a different post. (I’m not a fan! <img class="emoji" title=":hushed:" alt=":hushed:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f62f.png" height="20" width="20">)</p>
+<h2 id="the-problem-statement">The Problem Statement:</h2>
+<p>I needed to build a proof-of-concept to standardize the router/gateway/edge hardware for my companies locations.</p>
+<ul>
+<li>Hardware should be my companies own hardware.</li>
+<li>Platform must support automation via ansible and API.</li>
+<li>Platform should be FOSS.</li>
+<li>Software should be modular. (the ability to add, remove or modify components as necessary)</li>
+<li>Network Security Monitoring (NSM), Intrusion Prevention System (IPS) and other Next-Gen FW capabilities should be supported.</li>
+</ul>
+<p>This blog doesn’t dive into automation or other resource and performance monitoring but, it is the first in a series of proof of concepts using my companies own hardware as an all-in-one platform that fits <em>our</em> needs. Hopefully many more fun usecases and experiments to come. 🤞</p>
+<ul class="task-list">
+<li>
+<strong>Proof of Concept:</strong><br><ul class="task-list">
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>VyOS &amp; Suricata</li>
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>VyOS &amp; Zeek</li>
+</ul>
+</li>
+<li>
+<strong>Performance Testing:</strong><br><ul class="task-list">
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>VyOS &amp; Suricata on SN-3000 Hardware</li>
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>VyOS &amp; Zeek on SN-3000 Hardware</li>
+</ul>
+</li>
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Automation Tooling</li>
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Operational Playbooks</li>
+</ul>
+<h3 id="hardware-specifications">Hardware Specifications</h3>
+<p>I’m using my companies own <a href="https://www.sealingtech.com/hardware/sn-3000/">SN-3000 series small form-factor node</a>. While this unit can support larger specs, I opted for reduced spec’d components:</p>
+<ul>
+<li>
+<strong>Memory:</strong> 128GB RAM</li>
+<li>
+<strong>Storage:</strong> 128GB SSD</li>
+<li>
+<strong>Processor:</strong> Intel(R) Xeon(R) D-2183IT CPU @ 2.20GHz</li>
+</ul>
+<table><tr>
+<td><img style="max-width:100%" src="/assets/images/posts/2021-06-13-suricata-vyos/stech-sn3000-front.png"></td>
+<td><img style="max-width:100%" src="/assets/images/posts/2021-06-13-suricata-vyos/stech-sn3000-rear.png"></td>
+</tr></table>
+<h3 id="platform-and-software-versions">Platform and Software Versions</h3>
+<p>I’m calling the base VyOS a “platform”.</p>
+<ul>
+<li>
+<strong>Platform:</strong> VyOS 1.4-rolling-202105192127 (sagitta)</li>
+<li>
+<strong>Podman:</strong> 3.0.1</li>
+<li>
+<strong>Suricata:</strong> 6.0.2 (container)</li>
+</ul>
+<h3 id="network-architecture">Network Architecture</h3>
+<p>I’m currently leveraging this box at my home, during the proof-of-concept period. It is acting as my internet gateway performing outbound NAT, basic stateful ACL’s and inter-VLAN routing (router-on-a-stick).</p>
+<ul>
+<li>The layer-2 trunk uplink from my switch to the SN-3000 is 1Gbps copper.</li>
+<li>The link from the SN-3000 to my ONT CE (FTTH) is 1Gbps copper with 1Gbps CIR from my ISP.</li>
+</ul>
+<h2 id="tldr-heres-the-code">TL;DR: Here’s the Code</h2>
+<h4 id="1-edit-registriesconf-and-add-the-docker-registry">1. Edit registries.conf and add the docker registry:</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/containers/registries.conf
+</code></pre></div></div>
+<h4 id="2-uncomment-and-change-examplecom--to--dockerio-save-and-exit">2. Uncomment and change “example.com” -to-&gt; “docker.io”, save and exit.</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unqualified-search-registries <span class="o">=</span> <span class="o">[</span><span class="s2">"docker.io"</span><span class="o">]</span>
+</code></pre></div></div>
+<h4 id="3-pull-the-suricata-container">3. Pull the Suricata container:</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>podman pull jasonish/suricata:latest
+</code></pre></div></div>
+<h4 id="4-verify">4. Verify:</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>podman images
+</code></pre></div></div>
+<h4 id="5-create-a-directory-structure-to-store-rules-files-logs-and-configurations-between-container-restarts">5. Create a directory structure to store rules files, logs and configurations between container restarts.</h4>
+<p>Below is my preference:</p>
+<blockquote><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   ~/suricata/
+      |
+      |-etc/ (suricata configurations and rule exclusions)
+      |-logs/ (suricata stats.log, fast.log &amp; eve.json)
+      |-rules/ (suricata combined rules files)
+</code></pre></div></div></blockquote>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~ <span class="o">&amp;&amp;</span> <span class="nb">mkdir </span>suricata <span class="o">&amp;&amp;</span> <span class="nb">cd </span>suricata <span class="o">&amp;&amp;</span> <span class="nb">mkdir </span>etc <span class="o">&amp;&amp;</span> <span class="nb">mkdir </span>rules <span class="o">&amp;&amp;</span> <span class="nb">mkdir </span>logs 
+</code></pre></div></div>
+<h4 id="6-verify-suricata-was-built-with-nfq-support">6. Verify suricata was built with NFQ support:</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># From within ~/suricata/ run:</span>
+
+<span class="nb">sudo </span>podman run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="nt">--net</span><span class="o">=</span>host <span class="se">\</span>
+     <span class="nt">--cap-add</span><span class="o">=</span>net_admin <span class="nt">--cap-add</span><span class="o">=</span>sys_nice <span class="se">\</span>
+     <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>/logs:/var/log/suricata <span class="se">\</span>
+     <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>/etc:/etc/suricata <span class="se">\</span>
+     <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>/rules:/var/lib/suricata <span class="se">\</span>
+         jasonish/suricata:latest <span class="nt">--build-info</span>
+</code></pre></div></div>
+<p>From the output printed, look for: <code class="language-plaintext highlighter-rouge">NFQueue support: yes</code></p>
+<h2 id="-stop">🛑 STOP!</h2>
+<p>When you ran the command above in Step #6, the suricata container started, checked the directories for its configuration files, didn’t find any, and placed the default configuration files in the default directory: <code class="language-plaintext highlighter-rouge">~/suricata/etc/suricata.yaml</code>, then it ran with the <code class="language-plaintext highlighter-rouge">--build-info</code> flag and stopped.</p>
+<p>This means you now have a default <code class="language-plaintext highlighter-rouge">suricata.yaml</code> file in <code class="language-plaintext highlighter-rouge">~/suricata/etc/</code> that you can modify to configure suricata to run and operate how we need it.</p>
+<p>Best practice is to make a backup copy of this default YAML file so you can always revert to default if you booger up your configuration.</p>
+<h2 id="-go">🟢 GO!</h2>
+<h4 id="7-configure-suricatayaml">7. Configure suricata.yaml</h4>
+<p>Edit <code class="language-plaintext highlighter-rouge">~/suricata/etc/suricata.yaml</code> to suit your needs. All of the available configuration options in this YAML file is way to much to review in this short blog. Please see <a href="https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html">https://suricata.readthedocs.io/</a> for a much more verbose description of the configuration file content and options.</p>
+<p>Below are just <em>some</em> of the options I changed for <strong>my use case</strong>.</p>
+<table>
+<tr>
+<td align="left"><b>Original suricata.yaml</b></td>
+<td align="left"><b>My suricata.yaml</b></td>
+</tr>
+<tr>
+<td align="left"><pre>
+outputs:
+  - eve-log:
+      community-id: false
+      types:
+        - anomaly:
+	    enabled: yes
+</pre></td>
+<td align="left"><pre>
+outputs:
+  - eve-log:
+      community-id: <b>true</b>
+      types:
+        - anomaly:
+	    enabled: <b>no</b>
+</pre></td>
+</tr>
+<tr>
+<td align="left"><pre>
+host-mode: auto
+</pre></td>
+<td align="left"><pre>
+host-mode: <b>router</b>
+</pre></td>
+</tr>
+<tr>
+<td align="left"><pre>
+nfq:
+#  mode: accept
+#  repeat-mark: 1
+#  repeat-mask: 1
+#  bypass-mark: 1
+#  bypass-mask: 1
+#  route-queue: 2
+#  batchcount: 20
+#  fail-open: yes
+</pre></td>
+<td align="left"><pre>
+nfq:
+<b>  mode: accept</b>
+#  repeat-mark: 1
+#  repeat-mask: 1
+#  bypass-mark: 1
+#  bypass-mask: 1
+#  route-queue: 2
+#  batchcount: 20
+<b>  fail-open: yes</b>
+</pre></td>
+</tr>
+</table>
+<p>The Suricata documentation has a really good section explaining the various <a href="https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html#nfq">nfq modes</a>.</p>
+<h4 id="8-start-the-suricata-container">8. Start the suricata container:</h4>
+<p><strong>NOTE:</strong> Since this is purely a <em>proof of concept</em> and not optimized for performance, I’m leveraging a single queue.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># From within ~/suricata/ run:</span>
+
+<span class="nb">sudo </span>podman run <span class="nt">--rm</span> <span class="nt">-itd</span> <span class="nt">--net</span><span class="o">=</span>host <span class="se">\</span>
+     <span class="nt">--cap-add</span><span class="o">=</span>net_admin <span class="nt">--cap-add</span><span class="o">=</span>sys_nice <span class="se">\</span>
+	 <span class="nt">--name</span><span class="o">=</span>suricata <span class="se">\</span>
+     <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>/logs:/var/log/suricata <span class="se">\</span>
+     <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>/etc:/etc/suricata <span class="se">\</span>
+     <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>/rules:/var/lib/suricata <span class="se">\</span>
+         jasonish/suricata:latest <span class="nt">-q</span> 1
+</code></pre></div></div>
+<p><strong>Verify:</strong> Check the: <code class="language-plaintext highlighter-rouge">~/suricata/logs/suricata.log</code> file to verify everything is starting correctly.</p>
+<p>Regarding this particular setup I’m looking for:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>11/6/2021 -- 17:37:00 - &lt;Info&gt; - Enabling fail-open on queue
+11/6/2021 -- 17:37:00 - &lt;Info&gt; - NFQ running in standard ACCEPT/DROP mode
+</code></pre></div></div>
+<h4 id="9-add-the-required-iptables-rule-to-forward-traffic-to-suricata">9. Add the required <code class="language-plaintext highlighter-rouge">iptables</code> rule to forward traffic to suricata:</h4>
+<p>Because IPS rules/signatures are more computationally expensive than firewall rules(tuple matching/connection tracking). I follow the basic principal that firewall rules should be processed before IPS rules/signatures. While my SN-3000 has way more horsepower than I need for my home traffic and can process all my traffic through IPS I still follow the principal. For that reason I only send packets to Suricata only <em>after</em> they been filtered by iptables. This is why I insert this rule as #4 in the FORWARD chain. On the flip side I could insert a similar iptables rule first and send all traffic to suricata before it hits the iptables rules defined by my VyOS configuration.</p>
+<p>To understand this a little please read through the suricata <a href="https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html#nfq">doumentation on NFQ</a>.</p>
+<p><strong>NOTE:</strong> Since this is purely a <em>proof of concept</em> and not optimized for performance, I’m leveraging a single queue.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>iptables <span class="nt">-I</span> FORWARD 4 <span class="nt">-p</span> all <span class="nt">-j</span> NFQUEUE <span class="nt">--queue-bypass</span> <span class="nt">--queue-num</span> 1
+</code></pre></div></div>
+<p><strong>If you need to remove:</strong> Assuming your rule is still number 4 in the FORWARD chain (verify with: <code class="language-plaintext highlighter-rouge">sudo iptables -L FORWARD -n --line-numbers</code>)</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>iptables <span class="nt">-D</span> FORWARD 4
+</code></pre></div></div>
+<h4 id="10-enable-rule-sources-and-restart-suricata">10. Enable rule sources and restart suricata:</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo podman exec -it --user suricata suricata suricata-update
+sudo podman exec -it --user suricata suricata suricata-update list-sources
+sudo podman exec -it --user suricata suricata suricata-update list-enabled-sources
+sudo podman exec -it --user suricata suricata suricata-update enable-source et/open
+sudo podman exec -it --user suricata suricata suricata-update enable-source oisf/trafficid
+sudo podman exec -it --user suricata suricata suricata-update -f
+</code></pre></div></div>
+<h4 id="11-check-your-logs">11. Check your logs</h4>
+<p>Check the logs directory and verify your files are growing. Verify their contents. Enjoy. Happy Hacking!</p>
+<h2 id="circling-back">Circling Back</h2>
+<p>The inspiration of this proof-of-concept was derrived from the <a href="https://blog.vyos.io/vyos-project-may-2021-update">VyOS blog</a>. In that blog, containers are instantiated using the native VyOS CLI and configuration style. The process I documented above doesn’t leverage the VyOS CLI or configuration style because I’m not sure how to leverage the CLI’s <code class="language-plaintext highlighter-rouge">container</code> statements and pass it some of the necessary <code class="language-plaintext highlighter-rouge">--cap-add</code> options. I don’t foresee any issues running this via native linux versus the VyOS configuration style. If we want suricata to start post boot we can add it to the <code class="language-plaintext highlighter-rouge">/config/scripts/vyos-postconfig-bootup.script</code>. I’m fine with manually starting it for now.</p>
+<h2 id="fail-open-by-design-my-preference">Fail open by design (my preference)</h2>
+<p><strong>NOTE:</strong> This is my preference only! By tweaking some of the configuration this setup can be changed to fail-closed if you prefer. Please consult your organizations policy on fail-open network equipment.</p>
+<p>Because this appliance is currently my internet gateway and I have an active household (school &amp; work) I can’t let my <em>mucking around</em> with suricata affect the egress or ingress traffic. For my home-usecase having a blindspot from suricata is of much less importance than having 99.999% uptime.</p>
+<p>There are 2 configurations that drive this “<em>fail-open</em>” design:</p>
+<ul>
+<li>
+<code class="language-plaintext highlighter-rouge">--queue-bypass</code> in our iptables rule</li>
+<li>
+<code class="language-plaintext highlighter-rouge">fail-open: yes</code> in our “nfq:” section of the suricata.yaml file</li>
+</ul>
+<p><strong><code class="language-plaintext highlighter-rouge">--queue-bypass</code></strong> is great because it allows VyOS to forward packets and filter them through the iptables/firewall rules that exist while, suricata is doing things like reloading a rules set. What this actually does is keeps the packets in the kernel and filtering them through iptables if a userspace application isn’t available to receive them from the specified queue.</p>
+<p>Reference: <a href="https://ipset.netfilter.org/iptables-extensions.man.html">https://ipset.netfilter.org/iptables-extensions.man.html</a></p>
+<blockquote><p>By default, if no userspace program is listening on an NFQUEUE, then all packets that are to be queued are dropped. When this option is used, the NFQUEUE rule behaves like ACCEPT instead, and the packet will move on to the next table.</p></blockquote>
+<p>For me this is perfect because of where in the FORWARD chain I put my NFQUEUE rule. I’m processing all my drop and reject iptables rules before the NFQUEUE rule is evaluated. If suricata isn’t available, then the packet is permitted. This doesn’t permit any unecessary packets that would otherwise be dropped because the following rule is an “ACCEPT all” rule. If I never bothered with suricata or if I don’t have suricata running, the packet would’ve passed anyway by ACL design.</p>
+<p><strong><code class="language-plaintext highlighter-rouge">fail-open: yes</code></strong> is an available option baked in to suricata which says: ‘if suricata can’t keep up with the packets in the queue (when the queue is full), mark the incoming packets as ACCEPT. For this proof of concept this is acceptable until a baseline of performance can be measured and predicted.</p>
+<h2 id="what-to-do-with-the-logs-and-events">What to do with the logs and events?</h2>
+<p>If your hardware is powerful enough (and my SN-3000 is) you can host any number of databases, dashboards and search interfaces. Examples are: Splunk, Elasticsearch with Kibana, Graylog or something custom. If your hardware is not powerful enough to run other containers in addition to suricata I would recommend shipping them off the box with the recommended shipper for your database platform. Examples could be: Logstash or some custom scripting.</p>
+<h2 id="more-to-come">More to come</h2>
+<p>While this is the end of <em>this</em> blog post it isn’t the end of my on-going project. I still need <strong>performance testing</strong>, <strong>automation tooling</strong> and <strong>operational playbooks</strong>.</p>
+<ul class="task-list">
+<li>
+<strong>Proof of Concept:</strong><br><ul class="task-list">
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>VyOS &amp; Suricata</li>
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>VyOS &amp; Zeek</li>
+</ul>
+</li>
+<li>
+<strong>Performance Testing:</strong><br><ul class="task-list">
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>VyOS &amp; Suricata on SN-3000 Hardware</li>
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>VyOS &amp; Zeek on SN-3000 Hardware</li>
+</ul>
+</li>
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Automation Tooling</li>
+<li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Operational Playbooks</li>
+</ul>
+<h3 id="what-other-containers-should-i-run-on-the-sn-3000-using-vyos-as-a-platform">What other containers should I run on the SN-3000 using VyOS as a Platform?</h3>
+<h2 id="resources">Resources</h2>
+<ul>
+<li>
+<a href="https://blog.vyos.io/vyos-project-may-2021-update">https://blog.vyos.io/vyos-project-may-2021-update</a> (VyOS blog for demoing running containers via CLI)</li>
+<li>
+<a href="https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html#nfq">https://suricata.readthedocs.io/en/suricata-6.0.2/configuration/suricata-yaml.html#nfq</a> (NFQ operation as explained by the Suricata Documentation)</li>
+<li>
+<a href="https://github.com/jasonish/docker-suricata">https://github.com/jasonish/docker-suricata</a> (for a pre-packaged Suricata container)</li>
+<li>
+<a href="https://docs.mirantis.com/mcp/q4-18/mcp-security-best-practices/use-cases/idps-vnf/ips-mode/nfq.html">https://docs.mirantis.com/mcp/q4-18/mcp-security-best-practices/use-cases/idps-vnf/ips-mode/nfq.html</a> (for help with understanding NFQ settings)</li>
+<li>
+<a href="https://home.regit.org/netfilter-en/using-nfqueue-and-libnetfilter_queue/">https://home.regit.org/netfilter-en/using-nfqueue-and-libnetfilter_queue/</a> (for help understanding NFQUEUE operation)</li>
+<li><a href="https://suricata.readthedocs.io/en/suricata-6.0.2/setting-up-ipsinline-for-linux.html">https://suricata.readthedocs.io/en/suricata-6.0.2/setting-up-ipsinline-for-linux.html</a></li>
+</ul>
+</div>
+</div></div></section><footer id="footer"> <!--Footer Button--><div class="container has-text-centered has-background-grey-darker" id="backtotop"> <a class="has-text-white" onclick="window.scroll(0,0)">BACK TO TOP</a>
+</div>
+<!--Footer Main Section--><div class="has-background-grey-darker"><div class="container columns"> <!--Name Section--><div class="column has-text-left-desktop has-text-centered-mobile"> <a href="https://blog.showipintbri.com/pages/showipintbri/#about"><div class="columns">
+<div class="column is-one-fifth-desktop is-one-fifth-fullhd is-one-quarter-tablet"><figure class="image is-64x64"> <img class="is-rounded" src="/assets/images/tonye.jpg"></figure></div>
+<div class="column is-marginless">
+<h5 class="has-text-grey-lighter">Tony E.</h5>
+<div class="content has-text-grey"><p>Tony E. is a network security engineer, CCIE# 64908 &amp; GIAC: Network Fore...</p></div>
+</div>
+</div></a>
+</div>
+<!--Link Section--><div class="column has-text-white">
+<h3>More Links</h3>
+<!--<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/certifications">certifications</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/cisco-asa">cisco asa</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/eve-ng">eve-ng</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/future">future</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/giac">giac</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/goals">goals</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/google-cloud">google cloud</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/gparted">gparted</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/hex">hex</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/internet-access">internet access</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/intrusion-prevention">intrusion prevention</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/ips">ips</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/live">live</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/network-collective">network collective</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/network-field-day">network field day</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/network-forensics">network forensics</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/nfd23">nfd23</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/organization">organization</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/partitions">partitions</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/past">past</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/pcap">pcap</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/present">present</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/sans">sans</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/scapy">scapy</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/scripts">scripts</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/sharkfest">sharkfest</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/stream">stream</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/surface-pro">surface pro</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/suricata">suricata</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/t-i-w-a">t.i.w.a</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/tags">Tags</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/tcp">tcp</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/tcpdump">tcpdump</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/tracewrangler">tracewrangler</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/vyos">vyos</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/wireshark">wireshark</a></li><li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/tag/zeek">zeek</a></li>--><li> <a target="_blank" href="https://blog.showipintbri.com/pages/showipintbri/feed.xml">Subscribe via RSS</a>
+</li>
+</div>
+<!--Blog-post Section--><div class="column has-text-white">
+<h3>Recent Posts</h3>
+<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/sharkfest-2021">WiresharkFest 2021 (US)</a>
+</li>
+<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/suricata-vyos">Build Your Own IPS w/ Suricata Container on VyOS Router</a>
+</li>
+<li> <a href="https://blog.showipintbri.com/pages/showipintbri/blog/sans-for572">SANS: FOR572 &amp; Passing the GNFA!!!</a>
+</li>
+</div>
+</div></div>
+<div class="has-background-black has-text-centered has-text-white" id="credits"> <i class="far fa-copyright"></i> 2021 | Based on <a href="https://github.com/thedevslot/WhatATheme" target="_blank" rel="noopener noreferrer">WhatATheme</a> by <a href="https://www.twitter.com/thedevslot" target="_blank" rel="noopener noreferrer">TheDevsLot</a> Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>
+</div></footer></body></html>
